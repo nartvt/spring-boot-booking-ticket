@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <th:block th:replace="fragments/header" />
+  </head>
+
+  <body>
+    <div class="d-flex justify-content-between">
+      <!-- SIDE BAR -->
+       <div th:replace="fragments/sidebar :: sidebar"></div>
+      <div id="admin-wrapper">
+        <!-- NAV BAR -->
+         <div th:replace="fragments/navbar :: navbar"></div>
+        <!-- CONTENT -->
+        <section id="admin-content" class="p-3" layout:fragment="content">
+         <h1>HOME PAGE</h1>
+        </section>
+      </div>
+    </div>
+    <th:block th:replace="fragments/footer" />
+     <th:block layout:fragment="scripts" />
+  </body>
+
+</html>
