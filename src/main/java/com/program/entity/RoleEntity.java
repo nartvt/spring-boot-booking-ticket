@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity(name = "Permission")
+@Entity(name = "Role")
 public class RoleEntity {
 
   @Id
@@ -27,7 +27,7 @@ public class RoleEntity {
   private String description;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "permission", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
   private Set<UserEntity> users;
 
   public Long getRoleId() {
