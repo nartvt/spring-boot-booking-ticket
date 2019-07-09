@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS  Showtimes(
     movieId varchar(10) not null,
     showDay TIMESTAMP NULL,
     showDate TIMESTAMP NULL,
-    moviePrice FLOAT not null,
+    ticketFare FLOAT not null,
     PRIMARY KEY(showtimeId),
     CONSTRAINT FK_SHOWTIME_MOVIE  FOREIGN KEY (movieId) REFERENCES Movie(movieId),
     CONSTRAINT FK_SHOWTIME_ROOM  FOREIGN KEY (roomId) REFERENCES CinemaRoom(roomId)
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS  MovieTicket(
     showtimeId varchar(10) not null,
     seatId varchar(5) not null,
     userId varchar(10) not null,
-    ticketPrice int not null,
+    totalAmount int not null,
     bookingDate TIMESTAMP null,
     PRIMARY KEY(ticketId),
     CONSTRAINT FK_TICKET_SHOWTIMES FOREIGN KEY (showtimeId) REFERENCES Showtimes(showtimeId),
@@ -82,9 +82,9 @@ CREATE TABLE IF NOT EXISTS  CinemaRoom(
     PRIMARY KEY(roomId),
     CONSTRAINT FK_ROOM_CINEMA FOREIGN KEY (cinemaId) REFERENCES Cinema(cinemaId)
 );
- CREATE TABLE IF NOT EXISTS  Permission(
-     permissionId VARCHAR(10) not null,
-     permissionName varchar(50) not null,
+ CREATE TABLE IF NOT EXISTS  Role(
+     roleId VARCHAR(10) not null,
+     roleName varchar(50) not null,
      description varchar(100),
      PRIMARY key(permissionId)
  );
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS  User(
     address varchar(100) not null,
     phoneNumber varchar(10) not null,
     avatar varchar(100),
-    permissionId varchar(10) not null,
+    roleId varchar(10) not null,
     PRIMARY KEY(userId),
     CONSTRAINT fk_user_permission FOREIGN KEY (permissionId) REFERENCES Permission(permissionId)
 );

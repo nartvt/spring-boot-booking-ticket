@@ -1,7 +1,11 @@
 package com.program.repository;
 
+import org.springframework.stereotype.Repository;
+
 import com.program.entity.CineplexEntity;
 
-public interface CineplexRepository extends BaseRepository<CineplexEntity, String> {
+@Repository
+public interface CineplexRepository extends BaseRepository<CineplexEntity, Long> {
 
+  CineplexEntity findByCineplexName(String name);
 }

@@ -2,8 +2,11 @@ package com.program.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,9 +14,16 @@ import javax.persistence.OneToOne;
 
 @Entity(name = "MovieTicket")
 public class MovieTicketEntity {
+  
   @Id
-  private String ticketId;
-  private long ticketPrice;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ticketId")
+  private Long ticketId;
+
+  @Column(name = "totalAmount")
+  private Long totalAmount;
+
+  @Column(name = "bookingDate")
   private Timestamp bookingDate;
 
   @OneToOne(fetch = FetchType.LAZY, optional = false)
@@ -28,20 +38,20 @@ public class MovieTicketEntity {
   @JoinColumn(name = "showtimeId", nullable = false)
   private ShowtimeEntity show;
 
-  public String getTicketId() {
+  public Long getTicketId() {
     return ticketId;
   }
 
-  public void setTicketId(String ticketId) {
+  public void setTicketId(Long ticketId) {
     this.ticketId = ticketId;
   }
 
-  public long getTicketPrice() {
-    return ticketPrice;
+  public long getTotalAmount() {
+    return totalAmount;
   }
 
-  public void setTicketPrice(long ticketPrice) {
-    this.ticketPrice = ticketPrice;
+  public void setTotalAmount(long totalAmount) {
+    this.totalAmount = totalAmount;
   }
 
   public Timestamp getBookingDate() {

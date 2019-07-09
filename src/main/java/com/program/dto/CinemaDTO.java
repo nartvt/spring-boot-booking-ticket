@@ -1,49 +1,48 @@
-package com.program.entity;
+package com.program.dto;
 
-import java.util.Set;
+import com.program.entity.CinemaEntity;
+import com.program.entity.CineplexEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+public class CinemaDTO {
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@Entity(name = "Cinema")
-public class CinemaEntity {
-  
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name="cinemaId")
   private Long cinemaId;
-  
-  @Column(name="cinemaName")
+
   private String cinemaName;
-  
-  @Column(name="cinemaAddress")
+
   private String cinemaAddress;
-  
-  @Column(name="cinemaPhone")
+
   private String cinemaPhone;
-  
-  @Column(name="cinemaInfo")
+
   private String cinemaInfo;
-  
-  @Column(name="cinemaImage")
+
   private String cinemaImage;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "cineplexId", nullable = false)
   private CineplexEntity cineplex;
 
-  @JsonIgnore
-  @OneToMany(mappedBy = "cinema",fetch = FetchType.LAZY)
-  private Set<CinemaRoomEntity> cinemaRooms;
+  public CinemaDTO() {
+
+  }
+
+  public CinemaDTO(final CinemaEntity entity) {
+    this.cinemaId = entity.getCinemaId();
+    this.cinemaName = entity.getCinemaName();
+    this.cinemaAddress = entity.getCinemaAddress();
+    this.cinemaPhone = entity.getCinemaPhone();
+    this.cinemaInfo = entity.getCinemaInfo();
+    this.cinemaImage = entity.getCinemaImage();
+    this.cineplex = entity.getCineplex();
+  }
+
+  public CinemaEntity convert() {
+    CinemaEntity entity = new CinemaEntity();
+    entity.setCinemaId(this.cinemaId);
+    entity.setCinemaName(this.cinemaName);
+    entity.setCinemaPhone(this.cinemaPhone);
+    entity.setCinemaInfo(this.cinemaInfo);
+    entity.setCinemaAddress(this.cinemaAddress);
+    entity.setCineplex(this.cineplex);
+    return entity;
+  }
 
   public Long getCinemaId() {
     return cinemaId;
@@ -99,14 +98,6 @@ public class CinemaEntity {
 
   public void setCineplex(CineplexEntity cineplex) {
     this.cineplex = cineplex;
-  }
-
-  public Set<CinemaRoomEntity> getCinemaRooms() {
-    return cinemaRooms;
-  }
-
-  public void setCinemaRooms(Set<CinemaRoomEntity> cinemaRooms) {
-    this.cinemaRooms = cinemaRooms;
   }
 
 }

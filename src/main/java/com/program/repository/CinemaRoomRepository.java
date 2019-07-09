@@ -1,7 +1,11 @@
 package com.program.repository;
 
+import org.springframework.stereotype.Repository;
+
 import com.program.entity.CinemaRoomEntity;
 
-public interface CinemaRoomRepository extends BaseRepository<CinemaRoomEntity, String> {
-
+@Repository
+public interface CinemaRoomRepository extends BaseRepository<CinemaRoomEntity, Long> {
+  CinemaRoomEntity findByRoomName(String name);
+  
 }

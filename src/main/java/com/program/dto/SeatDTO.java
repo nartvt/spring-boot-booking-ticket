@@ -1,36 +1,43 @@
-package com.program.entity;
+package com.program.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import com.program.entity.CinemaRoomEntity;
+import com.program.entity.MovieTicketEntity;
+import com.program.entity.SeatEntity;
+import com.program.entity.SeatTypeEntity;
 
-@Entity(name = "Seat")
-public class SeatEntity {
+public class SeatDTO {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "seatId")
   private Long seatId;
 
-  @Column(name = "seatName")
   private String seatName;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "roomId", nullable = false)
   private CinemaRoomEntity room;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "seatTypeId")
   private SeatTypeEntity seatType;
 
-  @OneToOne(mappedBy = "seat")
   private MovieTicketEntity ticket;
+
+  public SeatDTO() {
+
+  }
+
+  public SeatDTO(final SeatEntity entity) {
+    this.seatId = entity.getSeatId();
+    this.seatName = entity.getSeatName();
+    this.room = entity.getRoom();
+    this.seatType = entity.getSeatType();
+    this.ticket = entity.getTicket();
+  }
+
+  public SeatEntity convert() {
+    final SeatEntity entity = new SeatEntity();
+    entity.setSeatId(this.seatId);
+    entity.setSeatName(this.seatName);
+    entity.setRoom(this.room);
+    entity.setSeatType(this.seatType);
+    entity.setTicket(this.ticket);
+    return entity;
+  }
 
   public Long getSeatId() {
     return seatId;
@@ -71,5 +78,4 @@ public class SeatEntity {
   public void setTicket(MovieTicketEntity ticket) {
     this.ticket = ticket;
   }
-
 }

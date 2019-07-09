@@ -2,25 +2,39 @@ package com.program.entity;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "Cineplex")
 public class CineplexEntity {
+
   @Id
-  private String cineplexId;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "cineplexId")
+  private Long cineplexId;
+
+  @Column(name = "cineplexName")
   private String cineplexName;
+
+  @Column(name = "cineplexLogo")
   private String cineplexLogo;
 
-  @OneToMany(mappedBy = "cineplex")
+  @JsonIgnore
+  @OneToMany(mappedBy = "cineplex", fetch = FetchType.LAZY)
   private Set<CinemaEntity> cinemas;
 
-  public String getCineplexId() {
+  public Long getCineplexId() {
     return cineplexId;
   }
 
-  public void setCineplexId(String cineplexId) {
+  public void setCineplexId(Long cineplexId) {
     this.cineplexId = cineplexId;
   }
 

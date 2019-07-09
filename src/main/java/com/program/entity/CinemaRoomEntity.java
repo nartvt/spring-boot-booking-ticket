@@ -2,32 +2,49 @@ package com.program.entity;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "CinemaRoom")
 public class CinemaRoomEntity {
+
   @Id
-  private String roomId;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "roomId")
+  private Long roomId;
+
+  @Column(name = "roomName")
   private String roomName;
-  private int seatAmount;
+
+  @Column(name = "quantitySeat")
+  private int quantitySeat;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "cinemaId", nullable = false)
   private CinemaEntity cinema;
 
-  @OneToMany(mappedBy = "room")
+  @JsonIgnore
+  @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
   private Set<SeatEntity> seat;
 
-  public String getRoomId() {
+  public CinemaRoomEntity() {
+    
+  }
+  
+  public Long getRoomId() {
     return roomId;
   }
 
-  public void setRoomId(String roomId) {
+  public void setRoomId(Long roomId) {
     this.roomId = roomId;
   }
 
@@ -39,12 +56,12 @@ public class CinemaRoomEntity {
     this.roomName = roomName;
   }
 
-  public int getSeatAmount() {
-    return seatAmount;
+  public int getQuantitySeat() {
+    return quantitySeat;
   }
 
-  public void setSeatAmount(int seatAmount) {
-    this.seatAmount = seatAmount;
+  public void setQuantitySeat(int quantitySeat) {
+    this.quantitySeat = quantitySeat;
   }
 
   public CinemaEntity getCinema() {

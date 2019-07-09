@@ -2,34 +2,45 @@ package com.program.entity;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "SeatType")
 public class SeatTypeEntity {
 
   @Id
-  private String seatTypeId;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "seatTypeId")
+  private Long seatTypeId;
+
+  @Column(name = "seatTypeName")
   private String seatTypeName;
+
+  @Column(name = "description")
   private String description;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "roomId", nullable = false)
   private CinemaRoomEntity room;
 
-  @OneToMany(mappedBy = "seatType", cascade = CascadeType.ALL)
-  private  Set<SeatEntity> seats;
+  @JsonIgnore
+  @OneToMany(mappedBy = "seatType", fetch = FetchType.LAZY)
+  private Set<SeatEntity> seats;
 
-  public String getSeatTypeId() {
+  public Long getSeatTypeId() {
     return seatTypeId;
   }
 
-  public void setSeatTypeId(String seatTypeId) {
+  public void setSeatTypeId(Long seatTypeId) {
     this.seatTypeId = seatTypeId;
   }
 
@@ -64,5 +75,5 @@ public class SeatTypeEntity {
   public void setSeats(Set<SeatEntity> seats) {
     this.seats = seats;
   }
-  
+
 }

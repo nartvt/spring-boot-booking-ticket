@@ -1,43 +1,54 @@
-package com.program.entity;
+package com.program.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import org.mindrot.jbcrypt.BCrypt;
 
-@Entity(name = "User")
-public class UserEntity {
+import com.program.entity.RoleEntity;
+import com.program.entity.UserEntity;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "userId")
+public class UserDTO {
   private Long userId;
 
-  @Column(name = "userName")
   private String userName;
 
-  @Column(name = "email")
   private String email;
 
-  @Column(name = "password")
   private String password;
 
-  @Column(name = "address")
   private String address;
 
-  @Column(name = "phoneNumber")
   private String phoneNumber;
 
-  @Column(name = "avatar")
   private String avatar;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "roleId")
   private RoleEntity role;
+
+  public UserDTO() {
+
+  }
+
+  public UserDTO(final UserEntity entity) {
+    this.userId = entity.getUserId();
+    this.userName = entity.getUserName();
+    this.email = entity.getEmail();
+    this.password = entity.getPassword();
+    this.address = entity.getAddress();
+    this.phoneNumber = entity.getPhoneNumber();
+    this.avatar = entity.getAvatar();
+    this.role = entity.getRole();
+  }
+
+  public UserEntity convert() {
+    final UserEntity entity = new UserEntity();
+    entity.setUserId(this.userId);
+    entity.setUserName(this.userName);
+    entity.setEmail(this.email);
+    entity.setPassword(BCrypt.hashpw(this.password, BCrypt.gensalt(12)));
+    entity.setAddress(this.address);
+    entity.setPhoneNumber(this.phoneNumber);
+    entity.setAvatar(this.avatar);
+    entity.setRole(this.role);
+    return entity;
+  }
 
   public Long getUserId() {
     return userId;
@@ -102,5 +113,4 @@ public class UserEntity {
   public void setRole(RoleEntity role) {
     this.role = role;
   }
-
 }

@@ -4,20 +4,34 @@ import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "Showtimes")
 public class ShowtimeEntity {
+  
   @Id
-  private String showTimeId;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "showTimeId")
+  private Long showTimeId;
+
+  @Column(name = "showDay")
   private Timestamp showDay;
+
+  @Column(name = "showDate")
   private Timestamp showDate;
-  private long moviePrice;
+
+  @Column(name = "ticketFare")
+  private long ticketFare;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "movieId", nullable = false)
@@ -27,14 +41,15 @@ public class ShowtimeEntity {
   @JoinColumn(name = "roomId", nullable = false)
   private CinemaRoomEntity room;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
   private Set<MovieTicketEntity> movieTickets;
 
-  public String getShowTimeId() {
+  public Long getShowTimeId() {
     return showTimeId;
   }
 
-  public void setShowTimeId(String showTimeId) {
+  public void setShowTimeId(Long showTimeId) {
     this.showTimeId = showTimeId;
   }
 
@@ -54,12 +69,12 @@ public class ShowtimeEntity {
     this.showDate = showDate;
   }
 
-  public long getMoviePrice() {
-    return moviePrice;
+  public long getTicketFare() {
+    return ticketFare;
   }
 
-  public void setMoviePrice(long moviePrice) {
-    this.moviePrice = moviePrice;
+  public void setTicketFare(long ticketFare) {
+    this.ticketFare = ticketFare;
   }
 
   public MovieEntity getMovie() {
@@ -85,6 +100,5 @@ public class ShowtimeEntity {
   public void setMovieTickets(Set<MovieTicketEntity> movieTickets) {
     this.movieTickets = movieTickets;
   }
-  
-  
+
 }

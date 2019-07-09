@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layout/default">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Home Page</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <th:block layout:fragment="header" />
+</head>
+
+<body>
+  <section layout:fragment="content">
+    <form action="#">
+      <div class="form-group">
+        <label for="userName">User Name</label>
+        <input type="text" class="form-control" id="userName">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password">
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="address" class="form-control" id="address">
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input type="phoneNumber" class="form-control" id="phoneNumber">
+      </div>
+
+      <div class="form-group">
+        <label for="avatar">Avatar</label>
+        <input type="avatar" class="form-control" id="avatar">
+      </div>
+      <div class="form-group">
+        <label for="avatar">Role</label>
+        <section>
+          <option value=""></option>
+        </section>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </section>
+  <th:block layout:fragment="footer" />
+  <th:block layout:fragment="scripts">
+    <script xmlns:th="http://www.thymeleaf.org" th:src="@{/js/chart.min.js}"></script>
+    <script xmlns:th="http://www.thymeleaf.org" th:src="@{/js/custom-chart.js}"></script>
+  </th:block>
+</body>
+
+</html>

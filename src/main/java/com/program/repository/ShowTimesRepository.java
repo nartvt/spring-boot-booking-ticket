@@ -1,7 +1,10 @@
 package com.program.repository;
 
+import org.springframework.stereotype.Repository;
+
 import com.program.entity.ShowtimeEntity;
 
-public interface ShowTimesRepository extends BaseRepository<ShowtimeEntity, String> {
+@Repository
+public interface ShowTimesRepository extends BaseRepository<ShowtimeEntity, Long> {
 
 }

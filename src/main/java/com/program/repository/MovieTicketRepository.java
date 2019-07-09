@@ -1,7 +1,10 @@
 package com.program.repository;
 
+import org.springframework.stereotype.Repository;
+
 import com.program.entity.MovieTicketEntity;
 
-public interface MovieTicketRepository extends BaseRepository<MovieTicketEntity, String> {
+@Repository
+public interface MovieTicketRepository extends BaseRepository<MovieTicketEntity, Long> {
 
 }

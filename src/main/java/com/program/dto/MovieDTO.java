@@ -1,50 +1,54 @@
-package com.program.entity;
+package com.program.dto;
 
 import java.sql.Timestamp;
-import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.program.entity.MovieEntity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@Entity(name = "Movie")
-public class MovieEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "movieId")
+public class MovieDTO {
   private Long movieId;
 
-  @Column(name = "movieName")
   private String movieName;
 
-  @Column(name = "movieImage")
   private String movieImage;
 
-  @Column(name = "trailer")
   private String trailer;
 
-  @Column(name = "description")
   private String description;
 
-  @Column(name = "movieDuration")
   private long movieDuration;
 
-  @Column(name = "movieReleaseDate")
   private Timestamp movieReleaseDate;
 
-  @Column(name = "review")
   private String review;
 
-  @JsonIgnore
-  @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
-  private Set<ShowtimeEntity> showtimes;
+  public MovieDTO() {
 
+  }
+
+  public MovieDTO(final MovieEntity entity) {
+    this.movieId = entity.getMovieId();
+    this.movieName = entity.getMovieName();
+    this.movieImage = entity.getMovieImage();
+    this.trailer = entity.getTrailer();
+    this.description = entity.getDescription();
+    this.movieDuration = entity.getMovieDuration();
+    this.movieReleaseDate = entity.getMovieReleaseDate();
+    this.review = entity.getReview();
+  }
+
+  public MovieEntity convert() {
+    final MovieEntity entity = new MovieEntity();
+    entity.setMovieId(this.movieId);
+    entity.setMovieName(this.movieName);
+    entity.setMovieImage(this.movieImage);
+    entity.setTrailer(this.trailer);
+    entity.setDescription(this.description);
+    entity.setMovieDuration(this.movieDuration);
+    entity.setMovieReleaseDate(this.movieReleaseDate);
+    entity.setReview(this.review);
+    return entity;
+  }
+  
   public Long getMovieId() {
     return movieId;
   }
@@ -108,13 +112,4 @@ public class MovieEntity {
   public void setReview(String review) {
     this.review = review;
   }
-
-  public Set<ShowtimeEntity> getShowtimes() {
-    return showtimes;
-  }
-
-  public void setShowtimes(Set<ShowtimeEntity> showtimes) {
-    this.showtimes = showtimes;
-  }
-
 }
