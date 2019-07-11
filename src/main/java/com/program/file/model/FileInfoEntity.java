@@ -7,57 +7,68 @@ import javax.persistence.*;
 @Entity
 @Table(name = "FileInfo")
 public class FileInfoEntity {
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+  @Id
+  @GeneratedValue(generator = "uuid")
+  @GenericGenerator(name = "uuid", strategy = "uuid2")
+  private String id;
 
-    private String fileName;
+  private String fileName;
 
-    private String fileType;
+  private String fileType;
 
-    @Lob
-    private byte[] data;
+  private long fileSize;
+  
+  @Lob
+  private byte[] data;
 
-    public FileInfoEntity() {
+  public FileInfoEntity() {
 
-    }
+  }
 
-    public FileInfoEntity(String fileName, String fileType, byte[] data) {
-        this.fileName = fileName;
-        this.fileType = fileType;
-        this.data = data;
-    }
+  public FileInfoEntity(String fileName, String fileType,long fileSize, byte[] data) {
+    this.fileName = fileName;
+    this.fileType = fileType;
+    this.fileSize = fileSize;
+    this.data = data;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public long getFileSize() {
+    return fileSize;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setFileSize(long fileSize) {
+    this.fileSize = fileSize;
+  }
 
-    public String getFileName() {
-        return fileName;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getFileType() {
-        return fileType;
-    }
+  public String getFileName() {
+    return fileName;
+  }
 
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
-    }
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
 
-    public byte[] getData() {
-        return data;
-    }
+  public String getFileType() {
+    return fileType;
+  }
 
-    public void setData(byte[] data) {
-        this.data = data;
-    }
+  public void setFileType(String fileType) {
+    this.fileType = fileType;
+  }
+
+  public byte[] getData() {
+    return data;
+  }
+
+  public void setData(byte[] data) {
+    this.data = data;
+  }
 }

@@ -14,29 +14,29 @@ import java.io.IOException;
 @Service
 public class FileStorageService {
 
-    @Autowired
-    private FileRepository dbFileRepository;
+  @Autowired
+  private FileRepository fileRepository;
 
-    public FileInfoEntity storeFile(MultipartFile file) {
-        // Normalize file name
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+  public FileInfoEntity storeFile(MultipartFile file) {
+    // Normalize file name
+    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-        try {
-            // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
+    try {
+      // Check if the file's name contains invalid characters
+      if (fileName.contains("..")) {
+        throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+      }
 
-            FileInfoEntity dbFile = new FileInfoEntity(fileName, file.getContentType(), file.getBytes());
+      FileInfoEntity fileInfo = new FileInfoEntity(fileName, file.getContentType(),file.getSize(),  file.getBytes());
 
-            return dbFileRepository.save(dbFile);
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
+      return fileRepository.save(fileInfo);
+    } catch (IOException ex) {
+      throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
     }
+  }
 
-    public FileInfoEntity getFile(String fileId) {
-        return dbFileRepository.findById(fileId)
-                .orElseThrow(() -> new FileNotFoundException("File not found with id " + fileId));
-    }
+  public FileInfoEntity getFile(String fileId) {
+    return fileRepository.findById(fileId)
+        .orElseThrow(() -> new FileNotFoundException("File not found with id " + fileId));
+  }
 }

@@ -27,41 +27,36 @@ import com.program.file.service.FileStorageService;
 @RestController
 public class FileController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(FileController.class);
 
-    @Autowired
-    private FileStorageService fileStorageService;
+  @Autowired
+  private FileStorageService fileStorageService;
 
-    @PostMapping("/uploadFile")
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
-        FileInfoEntity dbFile = fileStorageService.storeFile(file);
-        LOGGER.info("Upload a file");
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
-                .path(dbFile.getId())
-                .toUriString();
+  @PostMapping("/upload-file")
+  public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
+    FileInfoEntity dbFile = fileStorageService.storeFile(file);
+    LOGGER.info("upload a file");
+    String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/download-file/")
+        .path(dbFile.getId()).toUriString();
 
-        return new UploadFileResponse(dbFile.getFileName(), fileDownloadUri,
-                file.getContentType(), file.getSize());
-    }
+    return new UploadFileResponse(dbFile.getFileName(), fileDownloadUri, file.getContentType(), file.getSize());
+  }
 
-    @PostMapping("/uploadMultipleFiles")
-    public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-        return Arrays.asList(files)
-                .stream()
-                .map(file -> uploadFile(file))
-                .collect(Collectors.toList());
-    }
+  @PostMapping("/upload-files")
+  public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+    LOGGER.info("upload a files");
+    return Arrays.asList(files).stream().map(file -> uploadFile(file)).collect(Collectors.toList());
+  }
 
-    @GetMapping("/downloadFile/{fileId}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
-        // Load file from database
-        FileInfoEntity dbFile = fileStorageService.getFile(fileId);
+  @GetMapping("/download-file/{fileId}")
+  public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) {
+    LOGGER.info("download a files");
+    // Load file from database
+    FileInfoEntity dbFile = fileStorageService.getFile(fileId);
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(dbFile.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
-                .body(new ByteArrayResource(dbFile.getData()));
-    }
+    return ResponseEntity.ok().contentType(MediaType.parseMediaType(dbFile.getFileType()))
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
+        .body(new ByteArrayResource(dbFile.getData()));
+  }
 
 }
