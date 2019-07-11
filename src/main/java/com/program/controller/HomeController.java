@@ -8,10 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/home")
 public class HomeController {
 
-//  @GetMapping("")
-//  public Object index() {
-//    return "Hello World  Spring Boot Dev  Tools";
-//  }
   @GetMapping("")
   public Object index() {
     return "view/index";

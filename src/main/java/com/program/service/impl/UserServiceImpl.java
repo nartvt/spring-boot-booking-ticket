@@ -33,8 +33,11 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserDTO findById(Long id) {
+  public  UserDTO findById(Long id) {
     final UserEntity entity = userRepository.findById(id).get();
+    if(entity==null) {
+      return null;
+    }
     return new UserDTO(entity);
   }
 

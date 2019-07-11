@@ -12,7 +12,7 @@ import com.program.dto.UserDTO;
 import com.program.service.UserService;
 
 @Controller
-@RequestMapping("/rest/user/")
+@RequestMapping("/api/user")
 public class UserController {
   
   private static final String VIEW_USER_INDEX = "view/user/index";
