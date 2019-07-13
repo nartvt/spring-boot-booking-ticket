@@ -33,12 +33,12 @@ public class ShowtimeEntity {
   @Column(name = "ticketFare")
   private long ticketFare;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "movieId", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "movieId", nullable = true)
   private MovieEntity movie;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "roomId", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "roomId", nullable = true)
   private CinemaRoomEntity room;
 
   @JsonIgnore

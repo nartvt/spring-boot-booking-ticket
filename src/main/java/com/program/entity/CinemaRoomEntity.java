@@ -28,8 +28,8 @@ public class CinemaRoomEntity {
   @Column(name = "quantitySeat")
   private int quantitySeat;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "cinemaId", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "cinemaId", nullable = true)
   private CinemaEntity cinema;
 
   @JsonIgnore

@@ -11,7 +11,7 @@ public class SeatTypeDTO {
 
   private String description;
 
-  private CinemaRoomEntity room;
+  private Long room;
 
   public SeatTypeDTO() {
 
@@ -21,7 +21,9 @@ public class SeatTypeDTO {
     this.seatTypeId = entity.getSeatTypeId();
     this.seatTypeName = entity.getSeatTypeName();
     this.description = entity.getDescription();
-    this.room = entity.getRoom();
+    if(entity.getRoom().getRoomId()!=null) {
+      this.room = entity.getRoom().getRoomId();
+    }
   }
 
   public SeatTypeEntity convert() {
@@ -29,7 +31,10 @@ public class SeatTypeDTO {
     entity.setSeatTypeId(this.seatTypeId);
     entity.setSeatTypeName(this.seatTypeName);
     entity.setDescription(this.description);
-    entity.setRoom(this.room);
+
+    CinemaRoomEntity cinemaRoomEntity = new CinemaRoomEntity();
+    cinemaRoomEntity.setRoomId(this.room);
+    entity.setRoom(cinemaRoomEntity);
     return entity;
   }
 
@@ -57,11 +62,11 @@ public class SeatTypeDTO {
     this.description = description;
   }
 
-  public CinemaRoomEntity getRoom() {
+  public Long getRoom() {
     return room;
   }
 
-  public void setRoom(CinemaRoomEntity room) {
+  public void setRoom(Long room) {
     this.room = room;
   }
 }

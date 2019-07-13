@@ -35,8 +35,8 @@ public class UserEntity {
   @Column(name = "avatar")
   private String avatar;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "roleId")
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "roleId", nullable = true)
   private RoleEntity role;
 
   public Long getUserId() {

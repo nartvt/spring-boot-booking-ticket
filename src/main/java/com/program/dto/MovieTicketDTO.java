@@ -14,11 +14,11 @@ public class MovieTicketDTO {
 
   private Timestamp bookingDate;
 
-  private SeatEntity seat;
+  private Long seatEntityId;
 
-  private UserEntity user;
+  private Long userEntityId;
 
-  private ShowtimeEntity show;
+  private Long showtimeEntityId;
 
   public MovieTicketDTO() {
 
@@ -28,9 +28,9 @@ public class MovieTicketDTO {
     this.ticketId = entity.getTicketId();
     this.totalAmount = entity.getTotalAmount();
     this.bookingDate = entity.getBookingDate();
-    this.seat = entity.getSeat();
-    this.user = entity.getUser();
-    this.show = entity.getShow();
+    this.seatEntityId = entity.getSeat().getSeatId();
+    this.userEntityId = entity.getUser().getUserId();
+    this.showtimeEntityId = entity.getShow().getShowTimeId();
   }
 
   public MovieTicketEntity convert() {
@@ -38,9 +38,17 @@ public class MovieTicketDTO {
     entity.setTicketId(this.ticketId);
     entity.setTotalAmount(this.totalAmount);
     entity.setBookingDate(this.bookingDate);
-    entity.setSeat(this.seat);
-    entity.setUser(this.user);
-    entity.setShow(this.show);
+    
+    SeatEntity seatEntity = new SeatEntity();
+    entity.setSeat(seatEntity);
+    
+    UserEntity userEntity  = new UserEntity();
+    userEntity.setUserId(this.userEntityId);
+    entity.setUser(userEntity);
+    
+    ShowtimeEntity showtimeEntity = new ShowtimeEntity();
+    showtimeEntity.setShowTimeId(this.showtimeEntityId);
+    entity.setShow(showtimeEntity);
     return entity;
   }
 
@@ -68,27 +76,27 @@ public class MovieTicketDTO {
     this.bookingDate = bookingDate;
   }
 
-  public SeatEntity getSeat() {
-    return seat;
+  public Long getSeat() {
+    return seatEntityId;
   }
 
-  public void setSeat(SeatEntity seat) {
-    this.seat = seat;
+  public void setSeat(Long seat) {
+    this.seatEntityId = seat;
   }
 
-  public UserEntity getUser() {
-    return user;
+  public Long getUser() {
+    return userEntityId;
   }
 
-  public void setUser(UserEntity user) {
-    this.user = user;
+  public void setUser(Long user) {
+    this.userEntityId = user;
   }
 
-  public ShowtimeEntity getShow() {
-    return show;
+  public Long getShow() {
+    return showtimeEntityId;
   }
 
-  public void setShow(ShowtimeEntity show) {
-    this.show = show;
+  public void setShow(Long show) {
+    this.showtimeEntityId = show;
   }
 }

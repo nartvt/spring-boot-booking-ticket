@@ -20,7 +20,7 @@ public class UserDTO {
 
   private String avatar;
 
-  private RoleEntity role;
+  private Long role;
 
   public UserDTO() {
 
@@ -34,7 +34,13 @@ public class UserDTO {
     this.address = entity.getAddress();
     this.phoneNumber = entity.getPhoneNumber();
     this.avatar = entity.getAvatar();
-    this.role = entity.getRole();
+    if(entity.getRole().getRoleId()!=null) {
+      this.role = entity.getRole().getRoleId();
+    }
+//    if(entity.getRole()!=null) {
+//      RoleDTO dto = new RoleDTO(entity.getRole());
+//      this.role = dto;
+//    }
   }
 
   public UserEntity convert() {
@@ -46,7 +52,11 @@ public class UserDTO {
     entity.setAddress(this.address);
     entity.setPhoneNumber(this.phoneNumber);
     entity.setAvatar(this.avatar);
-    entity.setRole(this.role);
+    RoleEntity roleEntity = new RoleEntity();
+    roleEntity.setRoleId(this.role);
+    if (this.role != null) {
+      entity.setRole(roleEntity);
+    }
     return entity;
   }
 
@@ -106,11 +116,11 @@ public class UserDTO {
     this.avatar = avatar;
   }
 
-  public RoleEntity getRole() {
+  public Long getRole() {
     return role;
   }
 
-  public void setRole(RoleEntity role) {
+  public void setRole(Long role) {
     this.role = role;
   }
 }

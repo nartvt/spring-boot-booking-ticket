@@ -1,5 +1,7 @@
 package com.program.dto;
 
+import java.util.Set;
+
 import com.program.entity.RoleEntity;
 
 public class RoleDTO {
@@ -9,6 +11,8 @@ public class RoleDTO {
   private String roleName;
 
   private String description;
+  
+  public Set<UserDTO> users;
 
   public RoleDTO() {
     
@@ -49,6 +53,12 @@ public class RoleDTO {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+  public Set<UserDTO> getUsers() {
+    return users;
+  }
+  public void setUsers(Set<UserDTO> users) {
+    this.users = users;
   }
 
 }

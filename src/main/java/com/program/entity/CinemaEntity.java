@@ -37,8 +37,8 @@ public class CinemaEntity {
   @Column(name="cinemaImage")
   private String cinemaImage;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "cineplexId", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "cineplexId", nullable = true)
   private CineplexEntity cineplex;
 
   @JsonIgnore

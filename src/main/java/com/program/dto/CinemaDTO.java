@@ -17,7 +17,7 @@ public class CinemaDTO {
 
   private String cinemaImage;
 
-  private CineplexEntity cineplex;
+  private Long cineplexEntity;
 
   public CinemaDTO() {
 
@@ -30,7 +30,7 @@ public class CinemaDTO {
     this.cinemaPhone = entity.getCinemaPhone();
     this.cinemaInfo = entity.getCinemaInfo();
     this.cinemaImage = entity.getCinemaImage();
-    this.cineplex = entity.getCineplex();
+    this.cineplexEntity = entity.getCineplex().getCineplexId();
   }
 
   public CinemaEntity convert() {
@@ -40,7 +40,10 @@ public class CinemaDTO {
     entity.setCinemaPhone(this.cinemaPhone);
     entity.setCinemaInfo(this.cinemaInfo);
     entity.setCinemaAddress(this.cinemaAddress);
-    entity.setCineplex(this.cineplex);
+    
+    CineplexEntity lCineplexEntity = new CineplexEntity();
+    lCineplexEntity.setCineplexId(this.cineplexEntity);    
+    entity.setCineplex(lCineplexEntity);
     return entity;
   }
 
@@ -92,12 +95,12 @@ public class CinemaDTO {
     this.cinemaImage = cinemaImage;
   }
 
-  public CineplexEntity getCineplex() {
-    return cineplex;
+  public Long getCineplex() {
+    return cineplexEntity;
   }
 
-  public void setCineplex(CineplexEntity cineplex) {
-    this.cineplex = cineplex;
+  public void setCineplex(Long cineplex) {
+    this.cineplexEntity = cineplex;
   }
 
 }

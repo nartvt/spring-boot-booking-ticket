@@ -11,7 +11,7 @@ public class CinemaRoomDTO {
 
   private int quantitySeat;
 
-  private CinemaEntity cinema;
+  private Long cinemaEntity;
 
   public CinemaRoomDTO() {
     
@@ -21,7 +21,7 @@ public class CinemaRoomDTO {
     this.roomId = entity.getRoomId();
     this.roomName = entity.getRoomName();
     this.quantitySeat = entity.getQuantitySeat();
-    this.cinema = entity.getCinema();
+    this.cinemaEntity = entity.getCinema().getCinemaId();
   }
   
   public CinemaRoomEntity convert() {
@@ -29,7 +29,10 @@ public class CinemaRoomDTO {
     entity.setRoomId(this.roomId);
     entity.setRoomName(this.roomName);
     entity.setQuantitySeat(this.quantitySeat);
-    entity.setCinema(this.cinema);
+    
+    CinemaEntity cinemaEntity = new CinemaEntity();
+    cinemaEntity.setCinemaId(this.cinemaEntity);
+    entity.setCinema(cinemaEntity);
     return entity;
   }
   
@@ -57,11 +60,11 @@ public class CinemaRoomDTO {
     this.quantitySeat = quantitySeat;
   }
 
-  public CinemaEntity getCinema() {
-    return cinema;
+  public Long getCinema() {
+    return cinemaEntity;
   }
 
-  public void setCinema(CinemaEntity cinema) {
-    this.cinema = cinema;
+  public void setCinema(Long cinema) {
+    this.cinemaEntity = cinema;
   }
 }

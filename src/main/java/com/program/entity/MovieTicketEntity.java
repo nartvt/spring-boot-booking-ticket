@@ -66,24 +66,27 @@ public class MovieTicketEntity {
     return seat;
   }
 
-  public void setSeat(SeatEntity seat) {
+  public MovieTicketEntity setSeat(SeatEntity seat) {
     this.seat = seat;
+    return this;
   }
 
   public UserEntity getUser() {
     return user;
   }
 
-  public void setUser(UserEntity user) {
+  public MovieTicketEntity setUser(UserEntity user) {
     this.user = user;
+    return this;
   }
 
   public ShowtimeEntity getShow() {
     return show;
   }
 
-  public void setShow(ShowtimeEntity show) {
+  public MovieTicketEntity setShow(ShowtimeEntity show) {
     this.show = show;
+    return this;
   }
 
 }

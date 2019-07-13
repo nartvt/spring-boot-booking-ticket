@@ -15,9 +15,9 @@ public class ShowTimesDTO {
 
   private long ticketFare;
 
-  private MovieEntity movie;
+  private Long movie;
 
-  private CinemaRoomEntity room;
+  private Long room;
 
   public ShowTimesDTO() {
     
@@ -27,8 +27,8 @@ public class ShowTimesDTO {
     this.showDay = entity.getShowDay();
     this.showDate = entity.getShowDate();
     this.ticketFare = entity.getTicketFare();
-    this.movie = entity.getMovie();
-    this.room = entity.getRoom();
+    this.movie = entity.getMovie().getMovieId();
+    this.room = entity.getRoom().getRoomId();
         
   }
   public ShowtimeEntity convert() {
@@ -37,8 +37,15 @@ public class ShowTimesDTO {
     entity.setShowDay(this.showDay);
     entity.setShowDate(this.showDate);
     entity.setTicketFare(this.ticketFare);
-    entity.setMovie(this.movie);
-    entity.setRoom(this.room);
+    
+    MovieEntity movieEntity = new MovieEntity();
+    movieEntity.setMovieId(this.movie);
+    entity.setMovie(movieEntity);
+    
+    CinemaRoomEntity cinemaRoomEntity = new CinemaRoomEntity();
+    cinemaRoomEntity.setRoomId(this.room);
+    entity.setRoom(cinemaRoomEntity);
+
     return entity;
   }
   public Long getShowTimeId() {
@@ -73,19 +80,19 @@ public class ShowTimesDTO {
     this.ticketFare = ticketFare;
   }
 
-  public MovieEntity getMovie() {
+  public Long getMovie() {
     return movie;
   }
 
-  public void setMovie(MovieEntity movie) {
+  public void setMovie(Long movie) {
     this.movie = movie;
   }
 
-  public CinemaRoomEntity getRoom() {
+  public Long getRoom() {
     return room;
   }
 
-  public void setRoom(CinemaRoomEntity room) {
+  public void setRoom(Long room) {
     this.room = room;
   }
 }

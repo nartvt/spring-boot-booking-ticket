@@ -21,12 +21,12 @@ public class SeatEntity {
   @Column(name = "seatName")
   private String seatName;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "roomId", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "roomId", nullable = true)
   private CinemaRoomEntity room;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "seatTypeId")
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "seatTypeId",nullable = true)
   private SeatTypeEntity seatType;
 
   @OneToOne(mappedBy = "seat")

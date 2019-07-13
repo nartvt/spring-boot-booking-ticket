@@ -11,11 +11,11 @@ public class SeatDTO {
 
   private String seatName;
 
-  private CinemaRoomEntity room;
+  private Long room;
 
-  private SeatTypeEntity seatType;
+  private Long seatType;
 
-  private MovieTicketEntity ticket;
+  private Long ticket;
 
   public SeatDTO() {
 
@@ -24,18 +24,34 @@ public class SeatDTO {
   public SeatDTO(final SeatEntity entity) {
     this.seatId = entity.getSeatId();
     this.seatName = entity.getSeatName();
-    this.room = entity.getRoom();
-    this.seatType = entity.getSeatType();
-    this.ticket = entity.getTicket();
+    if (entity.getRoom().getRoomId() != null) {
+      this.room = entity.getRoom().getRoomId();
+    }
+    if (entity.getSeatType().getSeatTypeId() != null) {
+      this.seatType = entity.getSeatType().getSeatTypeId();
+    }
+    if (entity.getTicket().getTicketId() != null) {
+      this.ticket = entity.getTicket().getTicketId();
+    }
+
   }
 
   public SeatEntity convert() {
     final SeatEntity entity = new SeatEntity();
     entity.setSeatId(this.seatId);
     entity.setSeatName(this.seatName);
-    entity.setRoom(this.room);
-    entity.setSeatType(this.seatType);
-    entity.setTicket(this.ticket);
+
+    CinemaRoomEntity cinemaRoomEntity = new CinemaRoomEntity();
+    cinemaRoomEntity.setRoomId(this.room);
+    entity.setRoom(cinemaRoomEntity);
+
+    SeatTypeEntity seatTypeEntity = new SeatTypeEntity();
+    seatTypeEntity.setSeatTypeId(this.seatType);
+    entity.setSeatType(seatTypeEntity);
+
+    MovieTicketEntity movieTicketEntity = new MovieTicketEntity();
+    movieTicketEntity.setTicketId(this.ticket);
+    entity.setTicket(movieTicketEntity);
     return entity;
   }
 
@@ -55,27 +71,27 @@ public class SeatDTO {
     this.seatName = seatName;
   }
 
-  public CinemaRoomEntity getRoom() {
+  public Long getRoom() {
     return room;
   }
 
-  public void setRoom(CinemaRoomEntity room) {
+  public void setRoom(Long room) {
     this.room = room;
   }
 
-  public SeatTypeEntity getSeatType() {
+  public Long getSeatType() {
     return seatType;
   }
 
-  public void setSeatType(SeatTypeEntity seatType) {
+  public void setSeatType(Long seatType) {
     this.seatType = seatType;
   }
 
-  public MovieTicketEntity getTicket() {
+  public Long getTicket() {
     return ticket;
   }
 
-  public void setTicket(MovieTicketEntity ticket) {
+  public void setTicket(Long ticket) {
     this.ticket = ticket;
   }
 }
