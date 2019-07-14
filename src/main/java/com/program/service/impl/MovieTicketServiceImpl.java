@@ -40,13 +40,13 @@ public class MovieTicketServiceImpl implements MovieTicketService {
   }
 
   @Override
-  public boolean insert(MovieTicketDTO model) {
+  public ResponseExceptionModel insert(MovieTicketDTO model) {
     movieTicketRepository.save(model.convert());
     return true;
   }
 
   @Override
-  public boolean update(MovieTicketDTO model) {
+  public ResponseExceptionModel update(MovieTicketDTO model) {
     final MovieTicketEntity entity = movieTicketRepository.save(model.convert());
     if (entity == null) {
       return false;
@@ -55,7 +55,7 @@ public class MovieTicketServiceImpl implements MovieTicketService {
   }
 
   @Override
-  public boolean delete(Long id) {
+  public ResponseExceptionModel delete(Long id) {
     if (id == null) {
       return false;
     }

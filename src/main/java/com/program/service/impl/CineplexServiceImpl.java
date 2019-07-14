@@ -42,7 +42,7 @@ public class CineplexServiceImpl implements CineplexService{
   }
 
   @Override
-  public boolean insert(CineplexDTO model) {
+  public ResponseExceptionModel insert(CineplexDTO model) {
     if (cineplexRepository.findByCineplexName(model.getCineplexName()) != null) {
       return false;
     }
@@ -51,7 +51,7 @@ public class CineplexServiceImpl implements CineplexService{
   }
 
   @Override
-  public boolean update(CineplexDTO model) {
+  public ResponseExceptionModel update(CineplexDTO model) {
     final CineplexEntity entity = cineplexRepository.save(model.convert());
     if (entity == null) {
       return false;
@@ -60,7 +60,7 @@ public class CineplexServiceImpl implements CineplexService{
   }
 
   @Override
-  public boolean delete(Long id) {
+  public ResponseExceptionModel delete(Long id) {
     if (id == null) {
       return false;
     }

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.MovieTicketDTO;
+import com.program.error.ResponseExceptionModel;
 import com.program.service.MovieTicketService;
 
 @RestController
@@ -43,7 +44,7 @@ public class MovieTicketRestController {
 
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createMovieTicket(@RequestBody MovieTicketDTO model) {
-    boolean status = movieTicketService.insert(model);
+    ResponseExceptionModel response  = movieTicketService.insert(model);
     if (status == false) {
       return ResponseEntity.notFound().build();
     }
@@ -65,7 +66,7 @@ public class MovieTicketRestController {
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
   public Map<String, Boolean> deleteMovieTicket(@PathVariable(value = "id") Long id) {
     Map<String, Boolean> response = new HashMap<String, Boolean>();
-    boolean isDeleteStatus = movieTicketService.delete(id);
+    ResponseExceptionModel  responseException = movieTicketService.delete(id);
 
     if (isDeleteStatus == false) {
       response.put("undeleted", isDeleteStatus);

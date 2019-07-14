@@ -26,16 +26,16 @@ public class MovieTicketEntity {
   @Column(name = "bookingDate")
   private Timestamp bookingDate;
 
-  @OneToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "seatId", nullable = false)
+  @OneToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "seatId", nullable = true)
   private SeatEntity seat;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "userId", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "userId", nullable = true)
   private UserEntity user;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "showtimeId", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "showtimeId", nullable = true)
   private ShowtimeEntity show;
 
   public Long getTicketId() {

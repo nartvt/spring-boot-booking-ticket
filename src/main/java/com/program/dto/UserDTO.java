@@ -37,10 +37,6 @@ public class UserDTO {
     if(entity.getRole().getRoleId()!=null) {
       this.role = entity.getRole().getRoleId();
     }
-//    if(entity.getRole()!=null) {
-//      RoleDTO dto = new RoleDTO(entity.getRole());
-//      this.role = dto;
-//    }
   }
 
   public UserEntity convert() {

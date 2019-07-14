@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.UserDTO;
+import com.program.error.ResponseExceptionModel;
 import com.program.service.UserService;
 
 @RestController
@@ -42,9 +43,9 @@ public class UserRestController {
   }
 
   @PostMapping(value = RestContant.REST_ADD)
-  public ResponseEntity<Object> createUser(@RequestBody UserDTO model) {
-    boolean status = userService.insert(model);
-    if (status == false) {
+  public @ResponseBody ResponseEntity<Object> createUser(@RequestBody UserDTO model) {
+    ResponseExceptionModel  responseException = userService.insert(model);
+    if (responseException.isStatus() == false) {
       return ResponseEntity.notFound().build();
     }
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(RestContant.REST_BY_ID)
@@ -53,7 +54,7 @@ public class UserRestController {
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
-  public ResponseEntity<Object> updateUser(@RequestBody UserDTO model) {
+  public @ResponseBody ResponseEntity<Object> updateUser(@RequestBody UserDTO model) {
     UserDTO userOptional = userService.findById(model.getUserId());
     if (userOptional == null) {
       return ResponseEntity.notFound().build();
@@ -63,9 +64,9 @@ public class UserRestController {
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
-  public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long id) {
+  public @ResponseBody Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long id) {
     Map<String, Boolean> response = new HashMap<String, Boolean>();
-    boolean isDeleteStatus = userService.delete(id);
+    ResponseExceptionModel  responseException = userService.delete(id);
 
     if (isDeleteStatus == false) {
       response.put("undeleted", isDeleteStatus);

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.SeatTypeDTO;
+import com.program.error.ResponseExceptionModel;
 import com.program.service.SeatTypeService;
 
 @RestController
@@ -43,8 +44,8 @@ public class SeatTypeRestController {
 
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createSeatType(@RequestBody SeatTypeDTO model) {
-    boolean status = seatTypeService.insert(model);
-    if (status == false) {
+    ResponseExceptionModel response = seatTypeService.insert(model);
+    if (response.isStatus() == false) {
       return ResponseEntity.notFound().build();
     }
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(RestContant.REST_BY_ID)
@@ -65,9 +66,9 @@ public class SeatTypeRestController {
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
   public Map<String, Boolean> deleteSeatType(@PathVariable(value = "id") Long id) {
     Map<String, Boolean> response = new HashMap<String, Boolean>();
-    boolean isDeleteStatus = seatTypeService.delete(id);
+    ResponseExceptionModel responseException = seatTypeService.delete(id);
 
-    if (isDeleteStatus == false) {
+    if (responseException.isStatus() == false) {
       response.put("undeleted", isDeleteStatus);
       return response;
     }

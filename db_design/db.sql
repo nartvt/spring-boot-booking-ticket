@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS  CinemaRoom(
      roleId VARCHAR(10) not null,
      roleName varchar(50) not null,
      description varchar(100),
-     PRIMARY key(permissionId)
+     PRIMARY key(roleId)
  );
 
 CREATE TABLE IF NOT EXISTS  User(
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS  User(
     avatar varchar(100),
     roleId varchar(10) not null,
     PRIMARY KEY(userId),
-    CONSTRAINT fk_user_permission FOREIGN KEY (permissionId) REFERENCES Permission(permissionId)
+    CONSTRAINT fk_user_role FOREIGN KEY (roleId) REFERENCES Role(roleId)
 );
 
 -- enable foreign key check

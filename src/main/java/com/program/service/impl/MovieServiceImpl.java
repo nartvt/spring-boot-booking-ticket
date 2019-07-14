@@ -39,7 +39,7 @@ public class MovieServiceImpl implements MovieService {
   }
 
   @Override
-  public boolean insert(MovieDTO model) {
+  public ResponseExceptionModel insert(MovieDTO model) {
     if (movieRepositoty.findByMovieName(model.getMovieName()) != null) {
       return false;
     }
@@ -48,7 +48,7 @@ public class MovieServiceImpl implements MovieService {
   }
 
   @Override
-  public boolean update(MovieDTO model) {
+  public ResponseExceptionModel update(MovieDTO model) {
     final MovieEntity entity = movieRepositoty.save(model.convert());
     if (entity == null) {
       return false;
@@ -57,7 +57,7 @@ public class MovieServiceImpl implements MovieService {
   }
 
   @Override
-  public boolean delete(Long id) {
+  public ResponseExceptionModel delete(Long id) {
     if (id == null) {
       return false;
     }

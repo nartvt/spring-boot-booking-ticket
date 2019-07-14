@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.RoleDTO;
+import com.program.error.ResponseExceptionModel;
 import com.program.service.RoleService;
 
 @RestController
@@ -43,7 +44,7 @@ public class RoleRestController {
 
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createRole(@RequestBody RoleDTO model) {
-    boolean status = roleService.insert(model);
+    ResponseExceptionModel response  = roleService.insert(model);
     if (status == false) {
       return ResponseEntity.notFound().build();
     }
@@ -65,7 +66,7 @@ public class RoleRestController {
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
   public Map<String, Boolean> deleteRole(@PathVariable(value = "id") Long roleId) {
     Map<String, Boolean> response = new HashMap<String, Boolean>();
-    boolean isDeleteStatus = roleService.delete(roleId);
+    ResponseExceptionModel  responseException = roleService.delete(roleId);
 
     if (isDeleteStatus == false) {
       response.put("undeleted", isDeleteStatus);

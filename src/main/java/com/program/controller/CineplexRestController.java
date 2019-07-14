@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.CineplexDTO;
+import com.program.error.ResponseExceptionModel;
 import com.program.service.CineplexService;
 
 @RestController
@@ -43,7 +44,7 @@ public class CineplexRestController {
 
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createCineplex(@RequestBody CineplexDTO model) {
-    boolean status = cineplexService.insert(model);
+    ResponseExceptionModel responseException  = cineplexService.insert(model);
     if (status == false) {
       return ResponseEntity.notFound().build();
     }
@@ -65,7 +66,7 @@ public class CineplexRestController {
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
   public Map<String, Boolean> deleteCinePlex(@PathVariable(value = "id") Long cineplexId) {
     Map<String, Boolean> response = new HashMap<String, Boolean>();
-    boolean isDeleteStatus = cineplexService.delete(cineplexId);
+  ResponseExceptionModel  responseException = cineplexService.delete(cineplexId);
 
     if (isDeleteStatus == false) {
       response.put("undeleted", isDeleteStatus);

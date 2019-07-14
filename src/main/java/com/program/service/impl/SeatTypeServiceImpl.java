@@ -3,11 +3,14 @@ package com.program.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.program.conmmon.MessageContant;
 import com.program.dto.SeatTypeDTO;
 import com.program.entity.SeatTypeEntity;
+import com.program.error.ResponseExceptionModel;
 import com.program.repository.SeatTypeRepository;
 import com.program.service.SeatTypeService;
 
@@ -39,30 +42,43 @@ public class SeatTypeServiceImpl implements SeatTypeService {
   }
 
   @Override
-  public boolean insert(SeatTypeDTO model) {
+  public ResponseExceptionModel insert(SeatTypeDTO model) {
+    if (model == null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Type of seat cannot be null", HttpStatus.BAD_REQUEST);
+    }
+    if (seatTypeRepository.findBySeatTypeName(model.getSeatTypeName()) != null
+        || seatTypeRepository.findById(model.getSeatTypeId()) != null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Name of type of seat alreadly exists", HttpStatus.CONFLICT);
+    }
+    if (seatTypeRepository.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.TRUE, "add type of Seat success", HttpStatus.CREATED);
+    }
+    return new ResponseExceptionModel(Boolean.FALSE,
+        "add type seat unsuccess".concat(MessageContant.SOMETHING_WENT_WRONG), HttpStatus.BAD_REQUEST);
+  }
+
+  @Override
+  public ResponseExceptionModel update(SeatTypeDTO model) {
+    if (model == null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Seat cannot be null", HttpStatus.BAD_REQUEST);
+    }
     if (seatTypeRepository.findBySeatTypeName(model.getSeatTypeName()) != null) {
-      return false;
+      return new ResponseExceptionModel(Boolean.FALSE, "Seat alreadly exists", HttpStatus.CONFLICT);
     }
-    seatTypeRepository.save(model.convert());
-    return true;
+    if (seatTypeRepository.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.TRUE, "Update type of seat success", HttpStatus.CREATED);
+    }
+    return new ResponseExceptionModel(Boolean.FALSE,
+        "Update type of seat unsuccess".concat(MessageContant.SOMETHING_WENT_WRONG), HttpStatus.BAD_REQUEST);
   }
 
   @Override
-  public boolean update(SeatTypeDTO model) {
-    final SeatTypeEntity entity = seatTypeRepository.save(model.convert());
-    if (entity == null) {
-      return false;
-    }
-    return true;
-  }
-
-  @Override
-  public boolean delete(Long id) {
+  public ResponseExceptionModel delete(Long id) {
     if (id == null) {
-      return false;
+      return new ResponseExceptionModel(Boolean.FALSE, "Delete unsuccess", HttpStatus.BAD_REQUEST);
     }
     seatTypeRepository.deleteById(id);
-    return true;
+    return new ResponseExceptionModel(Boolean.TRUE, "Delete success", HttpStatus.OK);
   }
 
 }

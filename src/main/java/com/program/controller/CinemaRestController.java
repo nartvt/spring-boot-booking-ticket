@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.CinemaDTO;
+import com.program.error.ResponseExceptionModel;
 import com.program.service.CinemaService;
 
 @RestController
@@ -43,7 +44,7 @@ public class CinemaRestController {
 
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createCinema(@RequestBody CinemaDTO model) {
-    boolean status = cinemaService.insert(model);
+    ResponseExceptionModel responseException  = cinemaService.insert(model);
     if (status == false) {
       return ResponseEntity.notFound().build();
     }
@@ -65,7 +66,7 @@ public class CinemaRestController {
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
   public Map<String, Boolean> deleteCinema(@PathVariable(value = "id") Long cinemaId) {
     Map<String, Boolean> response = new HashMap<String, Boolean>();
-    boolean isDeleteStatus = cinemaService.delete(cinemaId);
+    ResponseExceptionModel  responseException = cinemaService.delete(cinemaId);
 
     if (isDeleteStatus == false) {
       response.put("undeleted", isDeleteStatus);

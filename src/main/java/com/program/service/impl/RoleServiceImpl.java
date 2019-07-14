@@ -39,7 +39,7 @@ public class RoleServiceImpl implements RoleService {
   }
 
   @Override
-  public boolean insert(RoleDTO model) {
+  public ResponseExceptionModel insert(RoleDTO model) {
     if (roleRepository.findByRoleName(model.getRoleName()) != null) {
       return false;
     }
@@ -48,7 +48,7 @@ public class RoleServiceImpl implements RoleService {
   }
 
   @Override
-  public boolean update(RoleDTO model) {
+  public ResponseExceptionModel update(RoleDTO model) {
     final RoleEntity entity = roleRepository.save(model.convert());
     if (entity == null) {
       return false;
@@ -57,7 +57,7 @@ public class RoleServiceImpl implements RoleService {
   }
 
   @Override
-  public boolean delete(Long id) {
+  public ResponseExceptionModel delete(Long id) {
     if (id == null) {
       return false;
     }

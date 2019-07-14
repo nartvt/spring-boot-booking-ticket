@@ -38,7 +38,7 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
   }
 
   @Override
-  public boolean insert(final CinemaRoomDTO model) {
+  public ResponseExceptionModel insert(final CinemaRoomDTO model) {
     if (cinemaRoomRepository.findByRoomName(model.getRoomName()) != null) {
       return false;
     }
@@ -47,7 +47,7 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
   }
 
   @Override
-  public boolean update(final CinemaRoomDTO model) {
+  public ResponseExceptionModel update(final CinemaRoomDTO model) {
     final CinemaRoomEntity entity = cinemaRoomRepository.save(model.convert());
     if (entity == null) {
       return false;
@@ -56,7 +56,7 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
   }
 
   @Override
-  public boolean delete(final Long id) {
+  public ResponseExceptionModel delete(final Long id) {
     if (id == null) {
       return false;
     }

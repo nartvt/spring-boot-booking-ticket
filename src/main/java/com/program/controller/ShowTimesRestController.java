@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.ShowTimesDTO;
+import com.program.error.ResponseExceptionModel;
 import com.program.service.ShowTimesService;
 
 @RestController
@@ -43,7 +44,7 @@ public class ShowTimesRestController {
 
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createShowTime(@RequestBody ShowTimesDTO model) {
-    boolean status = showtimeService.insert(model);
+    ResponseExceptionModel  responseException = showtimeService.insert(model);
     if (status == false) {
       return ResponseEntity.notFound().build();
     }

@@ -1,13 +1,16 @@
 package com.program.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.program.dto.ShowTimesDTO;
 import com.program.entity.ShowtimeEntity;
+import com.program.error.ResponseExceptionModel;
 import com.program.repository.ShowTimesRepository;
 import com.program.service.ShowTimesService;
 
@@ -39,27 +42,42 @@ public class ShowTimesServiceImpl implements ShowTimesService {
   }
 
   @Override
-  public boolean insert(ShowTimesDTO model) {
-    showTimesRepository.save(model.convert());
-    return true;
-  }
-
-  @Override
-  public boolean update(ShowTimesDTO model) {
-    final ShowtimeEntity entity = showTimesRepository.save(model.convert());
-    if (entity == null) {
-      return false;
+  public ResponseExceptionModel insert(ShowTimesDTO model) {
+    if(showTimesRepository.findById(model.getShowTimeId())!=null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Showtimes alreadly exists", 
+          HttpStatus.CONFLICT);
     }
-    return true;
+   if(showTimesRepository.save(model.convert())!=null) {
+     return new ResponseExceptionModel(Boolean.TRUE, "Add success", 
+         HttpStatus.CREATED);
+     
+   }
+   return new ResponseExceptionModel(Boolean.FALSE, "Add unsuccess", 
+       HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @Override
-  public boolean delete(Long id) {
+  public ResponseExceptionModel update(ShowTimesDTO model) {
+    if (showTimesRepository.save(model.convert())!=null) {
+      return new ResponseExceptionModel(Boolean.TRUE, "Update success", 
+          HttpStatus.OK);
+    }
+    return new ResponseExceptionModel(Boolean.FALSE, "Update unsuccess", 
+        HttpStatus.BAD_REQUEST);
+  }
+
+  @Override
+  public ResponseExceptionModel delete(Long id) {
     if (id == null) {
-      return false;
+      return new ResponseExceptionModel(Boolean.FALSE, "Delete un success", HttpStatus.NOT_ACCEPTABLE);
     }
-    showTimesRepository.deleteById(id);
-    return true;
+    try {
+      showTimesRepository.deleteById(id);
+      
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return new ResponseExceptionModel(Boolean.TRUE, "Delete success", HttpStatus.OK);
   }
 
 }
