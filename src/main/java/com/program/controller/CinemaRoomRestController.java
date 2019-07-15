@@ -41,18 +41,18 @@ public class CinemaRoomRestController {
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createCinemaRoom(@RequestBody CinemaRoomDTO model) {
     ResponseExceptionModel responseException = cinemaRoomService.insert(model);
-    return new ResponseEntity<>(responseException, responseException.getHttpCode());
+    return new ResponseEntity<>(responseException, responseException.getHttpMessage());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
   public ResponseEntity<Object> updateCinemaRoom(@RequestBody CinemaRoomDTO model) {
     ResponseExceptionModel responseException = cinemaRoomService.update(model);
-    return new ResponseEntity<>(responseException, responseException.getHttpCode());
+    return new ResponseEntity<>(responseException, responseException.getHttpMessage());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
   public ResponseEntity<Object> deleteCinemaRoom(@PathVariable(value = "id") Long cinemaId) {
     ResponseExceptionModel responseException = cinemaRoomService.delete(cinemaId);
-    return new ResponseEntity<>(responseException, responseException.getHttpCode());
+    return new ResponseEntity<>(responseException, responseException.getHttpMessage());
   }
 }

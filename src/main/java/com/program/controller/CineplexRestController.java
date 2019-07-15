@@ -41,18 +41,18 @@ public class CineplexRestController {
   @PostMapping(value = RestContant.REST_ADD)
   public @ResponseBody ResponseEntity<Object> createCineplex(@RequestBody CineplexDTO model) {
     ResponseExceptionModel responseException = cineplexService.insert(model);
-    return new ResponseEntity<>(responseException, responseException.getHttpCode());
+    return new ResponseEntity<>(responseException, responseException.getHttpMessage());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
   public @ResponseBody ResponseEntity<Object> updateCineplex(@RequestBody CineplexDTO model) {
     ResponseExceptionModel responseException = cineplexService.update(model);
-    return new ResponseEntity<>(responseException, responseException.getHttpCode());
+    return new ResponseEntity<>(responseException, responseException.getHttpMessage());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
   public @ResponseBody ResponseEntity<Object> deleteCinePlex(@PathVariable(value = "id") Long cineplexId) {
     ResponseExceptionModel responseException = cineplexService.delete(cineplexId);
-    return new ResponseEntity<>(responseException, responseException.getHttpCode());
+    return new ResponseEntity<>(responseException, responseException.getHttpMessage());
   }
 }

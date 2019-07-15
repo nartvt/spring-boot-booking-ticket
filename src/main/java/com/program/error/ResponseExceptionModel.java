@@ -7,21 +7,18 @@ import org.springframework.http.HttpStatus;
 public class ResponseExceptionModel {
   private boolean status;
   private String message;
-  private HttpStatus httpCode;
+  private int httpCode;
+  private HttpStatus httpMessage;
   private LocalDateTime dateTime;
 
-  public ResponseExceptionModel(boolean status, String message, HttpStatus httpCode, LocalDateTime dateTime) {
+  public ResponseExceptionModel(boolean status, String message, HttpStatus httpMessage) {
     this.status = status;
     this.message = message;
-    this.httpCode = httpCode;
-    this.dateTime = dateTime;
-  }
-  public ResponseExceptionModel(boolean status,String message, HttpStatus httpCode) {
-    this.status = status;
-    this.message = message;
-    this.httpCode = httpCode;
+    this.httpMessage = httpMessage;
+    this.httpCode = httpMessage.value();
     this.dateTime = LocalDateTime.now();
   }
+
   public ResponseExceptionModel() {
   }
 
@@ -29,32 +26,20 @@ public class ResponseExceptionModel {
     return status;
   }
 
-  public void setStatus(boolean status) {
-    this.status = status;
-  }
-
   public String getMessage() {
     return message;
   }
 
-  public void setMessage(String message) {
-    this.message = message;
+  public HttpStatus getHttpMessage() {
+    return httpMessage;
   }
 
-  public HttpStatus getHttpCode() {
+  public int getHttpCode() {
     return httpCode;
-  }
-
-  public void setHttpCode(HttpStatus httpCode) {
-    this.httpCode = httpCode;
   }
 
   public LocalDateTime getDateTime() {
     return dateTime;
-  }
-
-  public void setDateTime(LocalDateTime dateTime) {
-    this.dateTime = dateTime;
   }
 
 }

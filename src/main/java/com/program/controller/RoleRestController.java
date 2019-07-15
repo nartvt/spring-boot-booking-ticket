@@ -41,18 +41,18 @@ public class RoleRestController {
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createRole(@RequestBody RoleDTO model) {
     ResponseExceptionModel responseException  = roleService.insert(model);
-    return new ResponseEntity<>(responseException,responseException.getHttpCode());
+    return new ResponseEntity<>(responseException,responseException.getHttpMessage());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
   public ResponseEntity<Object> updateRole(@RequestBody RoleDTO model) {
     ResponseExceptionModel  responseException = roleService.update(model);
-    return new ResponseEntity<>(responseException,responseException.getHttpCode());
+    return new ResponseEntity<>(responseException,responseException.getHttpMessage());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
   public ResponseEntity<Object>  deleteRole(@PathVariable(value = "id") Long roleId) {
     ResponseExceptionModel  responseException = roleService.delete(roleId);
-    return new ResponseEntity<>(responseException,responseException.getHttpCode());
+    return new ResponseEntity<>(responseException,responseException.getHttpMessage());
   }
 }

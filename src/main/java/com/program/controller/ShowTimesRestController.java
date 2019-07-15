@@ -41,18 +41,18 @@ public class ShowTimesRestController {
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createShowTime(@RequestBody ShowTimesDTO model) {
     ResponseExceptionModel responseException = showtimeService.insert(model);
-    return new ResponseEntity<>(responseException, responseException.getHttpCode());
+    return new ResponseEntity<>(responseException, responseException.getHttpMessage());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
   public ResponseEntity<Object> updateShowTime(@RequestBody ShowTimesDTO model) {
     ResponseExceptionModel responseException = showtimeService.update(model);
-    return new ResponseEntity<>(responseException, responseException.getHttpCode());
+    return new ResponseEntity<>(responseException, responseException.getHttpMessage());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
   public ResponseEntity<Object> deleteShowTime(@PathVariable(value = "id") Long id) {
     ResponseExceptionModel responseException = showtimeService.delete(id);
-    return new ResponseEntity<>(responseException, responseException.getHttpCode());
+    return new ResponseEntity<>(responseException, responseException.getHttpMessage());
   }
 }

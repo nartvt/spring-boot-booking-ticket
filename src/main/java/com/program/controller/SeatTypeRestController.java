@@ -41,18 +41,18 @@ public class SeatTypeRestController {
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createSeatType(@RequestBody SeatTypeDTO model) {
     ResponseExceptionModel responseException = seatTypeService.insert(model);
-    return new ResponseEntity<>(responseException,responseException.getHttpCode());
+    return new ResponseEntity<>(responseException,responseException.getHttpMessage());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
   public ResponseEntity<Object> updateSeatType(@RequestBody SeatTypeDTO model) {
     ResponseExceptionModel responseException = seatTypeService.update(model);
-    return new ResponseEntity<>(responseException,responseException.getHttpCode());
+    return new ResponseEntity<>(responseException,responseException.getHttpMessage());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
   public ResponseEntity<Object> deleteSeatType(@PathVariable(value = "id") Long id) {
     ResponseExceptionModel responseException = seatTypeService.delete(id);
-    return new ResponseEntity<>(responseException,responseException.getHttpCode());
+    return new ResponseEntity<>(responseException,responseException.getHttpMessage());
   }
 }

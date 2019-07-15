@@ -41,18 +41,18 @@ public class UserRestController {
   @PostMapping(value = RestContant.REST_ADD)
   public @ResponseBody ResponseEntity<Object> createUser(@RequestBody UserDTO model) {
     ResponseExceptionModel  responseException = userService.insert(model);
-    return new ResponseEntity<>(responseException,responseException.getHttpCode());
+    return new ResponseEntity<>(responseException,responseException.getHttpMessage());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
   public @ResponseBody ResponseEntity<Object> updateUser(@RequestBody UserDTO model) {   
     ResponseExceptionModel  responseException  = userService.update(model);
-    return new ResponseEntity<>(responseException,responseException.getHttpCode());
+    return new ResponseEntity<>(responseException,responseException.getHttpMessage());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
   public @ResponseBody Object deleteUser(@PathVariable(value = "id") Long id) {
     ResponseExceptionModel  responseException = userService.delete(id);
-    return new ResponseEntity<>(responseException,responseException.getHttpCode());
+    return new ResponseEntity<>(responseException,responseException.getHttpMessage());
   }
 }
