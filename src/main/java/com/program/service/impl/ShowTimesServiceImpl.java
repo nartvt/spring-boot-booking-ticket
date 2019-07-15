@@ -1,6 +1,5 @@
 package com.program.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,27 +42,22 @@ public class ShowTimesServiceImpl implements ShowTimesService {
 
   @Override
   public ResponseExceptionModel insert(ShowTimesDTO model) {
-    if(showTimesRepository.findById(model.getShowTimeId())!=null) {
-      return new ResponseExceptionModel(Boolean.FALSE, "Showtimes alreadly exists", 
-          HttpStatus.CONFLICT);
+    if (showTimesRepository.findById(model.getShowTimeId()) != null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Showtimes alreadly exists", HttpStatus.CONFLICT);
     }
-   if(showTimesRepository.save(model.convert())!=null) {
-     return new ResponseExceptionModel(Boolean.TRUE, "Add success", 
-         HttpStatus.CREATED);
-     
-   }
-   return new ResponseExceptionModel(Boolean.FALSE, "Add unsuccess", 
-       HttpStatus.UNPROCESSABLE_ENTITY);
+    if (showTimesRepository.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.TRUE, "Add success", HttpStatus.CREATED);
+
+    }
+    return new ResponseExceptionModel(Boolean.FALSE, "Add unsuccess", HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @Override
   public ResponseExceptionModel update(ShowTimesDTO model) {
-    if (showTimesRepository.save(model.convert())!=null) {
-      return new ResponseExceptionModel(Boolean.TRUE, "Update success", 
-          HttpStatus.OK);
+    if (showTimesRepository.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.TRUE, "Update success", HttpStatus.OK);
     }
-    return new ResponseExceptionModel(Boolean.FALSE, "Update unsuccess", 
-        HttpStatus.BAD_REQUEST);
+    return new ResponseExceptionModel(Boolean.FALSE, "Update unsuccess", HttpStatus.BAD_REQUEST);
   }
 
   @Override
@@ -73,7 +67,7 @@ public class ShowTimesServiceImpl implements ShowTimesService {
     }
     try {
       showTimesRepository.deleteById(id);
-      
+
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -1,9 +1,6 @@
 package com.program.controller;
 
-import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.CineplexDTO;
@@ -43,36 +39,20 @@ public class CineplexRestController {
   }
 
   @PostMapping(value = RestContant.REST_ADD)
-  public ResponseEntity<Object> createCineplex(@RequestBody CineplexDTO model) {
-    ResponseExceptionModel responseException  = cineplexService.insert(model);
-    if (status == false) {
-      return ResponseEntity.notFound().build();
-    }
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(RestContant.REST_BY_ID)
-        .buildAndExpand(model.getCineplexId()).toUri();
-    return ResponseEntity.created(location).build();
+  public @ResponseBody ResponseEntity<Object> createCineplex(@RequestBody CineplexDTO model) {
+    ResponseExceptionModel responseException = cineplexService.insert(model);
+    return new ResponseEntity<>(responseException, responseException.getHttpCode());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
-  public ResponseEntity<Object> updateCineplex(@RequestBody CineplexDTO model) {
-    CineplexDTO cineplexOptional = cineplexService.findById(model.getCineplexId());
-    if (cineplexOptional == null) {
-      return ResponseEntity.notFound().build();
-    }
-    cineplexService.update(model);
-    return ResponseEntity.noContent().build();
+  public @ResponseBody ResponseEntity<Object> updateCineplex(@RequestBody CineplexDTO model) {
+    ResponseExceptionModel responseException = cineplexService.update(model);
+    return new ResponseEntity<>(responseException, responseException.getHttpCode());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
-  public Map<String, Boolean> deleteCinePlex(@PathVariable(value = "id") Long cineplexId) {
-    Map<String, Boolean> response = new HashMap<String, Boolean>();
-  ResponseExceptionModel  responseException = cineplexService.delete(cineplexId);
-
-    if (isDeleteStatus == false) {
-      response.put("undeleted", isDeleteStatus);
-      return response;
-    }
-    response.put("deleted", isDeleteStatus);
-    return response;
+  public @ResponseBody ResponseEntity<Object> deleteCinePlex(@PathVariable(value = "id") Long cineplexId) {
+    ResponseExceptionModel responseException = cineplexService.delete(cineplexId);
+    return new ResponseEntity<>(responseException, responseException.getHttpCode());
   }
 }

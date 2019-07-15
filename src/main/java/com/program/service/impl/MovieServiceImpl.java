@@ -3,11 +3,13 @@ package com.program.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.program.dto.MovieDTO;
 import com.program.entity.MovieEntity;
+import com.program.error.ResponseExceptionModel;
 import com.program.repository.MovieRepositoty;
 import com.program.service.MovieService;
 
@@ -40,29 +42,33 @@ public class MovieServiceImpl implements MovieService {
 
   @Override
   public ResponseExceptionModel insert(MovieDTO model) {
-    if (movieRepositoty.findByMovieName(model.getMovieName()) != null) {
-      return false;
+    if (movieRepositoty.findById(model.getMovieId()) != null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Movie id  alreadly exists", HttpStatus.CONFLICT);
     }
-    movieRepositoty.save(model.convert());
-    return true;
+    if (movieRepositoty.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Can't add new movie, something went wrong",
+          HttpStatus.CONFLICT);
+    } else {
+      return new ResponseExceptionModel(Boolean.TRUE, "Success, new movie created", HttpStatus.CONFLICT);
+    }
   }
 
   @Override
   public ResponseExceptionModel update(MovieDTO model) {
-    final MovieEntity entity = movieRepositoty.save(model.convert());
-    if (entity == null) {
-      return false;
+    if (movieRepositoty.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.TRUE, "Movie update Success", HttpStatus.OK);
     }
-    return true;
+    return new ResponseExceptionModel(Boolean.FALSE, "can't update movie, something went wrong",
+        HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @Override
   public ResponseExceptionModel delete(Long id) {
     if (id == null) {
-      return false;
+      return new ResponseExceptionModel(Boolean.FALSE, "Id cannot be null", HttpStatus.BAD_REQUEST);
     }
     movieRepositoty.deleteById(id);
-    return true;
+    return new ResponseExceptionModel(Boolean.TRUE, "Delete Success", HttpStatus.OK);
   }
 
 }

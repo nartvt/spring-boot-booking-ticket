@@ -1,6 +1,5 @@
 package com.program.service.impl;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,6 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   private UserRepository userRepository;
-
-  private ResponseExceptionModel responseExceptionModel;
 
   @Override
   public List<UserDTO> findAll() {
@@ -53,7 +50,9 @@ public class UserServiceImpl implements UserService {
         || userRepository.findByPhoneNumber(model.getPhoneNumber()) != null) {
       return new ResponseExceptionModel(Boolean.FALSE, "email or phone number alreadly exists", HttpStatus.CONFLICT);
     }
-    userRepository.save(model.convert());
+    if (userRepository.save(model.convert()) == null) {
+
+    }
     return new ResponseExceptionModel(Boolean.TRUE, "Add success", HttpStatus.CREATED);
   }
 
@@ -64,7 +63,7 @@ public class UserServiceImpl implements UserService {
     if (userRepository.save(model.convert()) != null) {
       return new ResponseExceptionModel(Boolean.TRUE, "Update Success", HttpStatus.OK);
     }
-    return new ResponseExceptionModel(Boolean.FALSE, "Can't add user", HttpStatus.UNPROCESSABLE_ENTITY);
+    return new ResponseExceptionModel(Boolean.FALSE, "Can't add user, something went wrong", HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @Override

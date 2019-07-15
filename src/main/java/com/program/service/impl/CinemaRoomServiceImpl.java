@@ -3,11 +3,13 @@ package com.program.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.program.dto.CinemaRoomDTO;
 import com.program.entity.CinemaRoomEntity;
+import com.program.error.ResponseExceptionModel;
 import com.program.repository.CinemaRoomRepository;
 import com.program.service.CinemaRoomService;
 
@@ -39,29 +41,32 @@ public class CinemaRoomServiceImpl implements CinemaRoomService {
 
   @Override
   public ResponseExceptionModel insert(final CinemaRoomDTO model) {
-    if (cinemaRoomRepository.findByRoomName(model.getRoomName()) != null) {
-      return false;
+    if (cinemaRoomRepository.findById(model.getRoomId()) != null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Room id  alreadly exists", HttpStatus.CONFLICT);
     }
-    cinemaRoomRepository.save(model.convert());
-    return true;
+    if (cinemaRoomRepository.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Can't add new room, something went wrong", HttpStatus.CONFLICT);
+    } else {
+      return new ResponseExceptionModel(Boolean.TRUE, "Success, new Room created", HttpStatus.CONFLICT);
+    }
   }
 
   @Override
   public ResponseExceptionModel update(final CinemaRoomDTO model) {
-    final CinemaRoomEntity entity = cinemaRoomRepository.save(model.convert());
-    if (entity == null) {
-      return false;
+    if (cinemaRoomRepository.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.TRUE, "Room update Success", HttpStatus.OK);
     }
-    return true;
+    return new ResponseExceptionModel(Boolean.FALSE, "can't update Room, something went wrong",
+        HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @Override
   public ResponseExceptionModel delete(final Long id) {
     if (id == null) {
-      return false;
+      return new ResponseExceptionModel(Boolean.FALSE, "Id cannot be null", HttpStatus.BAD_REQUEST);
     }
     cinemaRoomRepository.deleteById(id);
-    return true;
+    return new ResponseExceptionModel(Boolean.TRUE, "Delete Success", HttpStatus.OK);
   }
 
 }

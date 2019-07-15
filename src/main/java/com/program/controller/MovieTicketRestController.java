@@ -1,9 +1,6 @@
 package com.program.controller;
 
-import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.MovieTicketDTO;
@@ -44,35 +40,19 @@ public class MovieTicketRestController {
 
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createMovieTicket(@RequestBody MovieTicketDTO model) {
-    ResponseExceptionModel response  = movieTicketService.insert(model);
-    if (status == false) {
-      return ResponseEntity.notFound().build();
-    }
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(RestContant.REST_BY_ID)
-        .buildAndExpand(model.getTicketId()).toUri();
-    return ResponseEntity.created(location).build();
+    ResponseExceptionModel responseException  = movieTicketService.insert(model);
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
   public ResponseEntity<Object> updateMovieTicket(@RequestBody MovieTicketDTO model) {
-    MovieTicketDTO movieTicketDTO = movieTicketService.findById(model.getTicketId());
-    if (movieTicketDTO == null) {
-      return ResponseEntity.notFound().build();
-    }
-    movieTicketService.update(model);
-    return ResponseEntity.noContent().build();
+    ResponseExceptionModel  responseException=  movieTicketService.update(model);
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
-  public Map<String, Boolean> deleteMovieTicket(@PathVariable(value = "id") Long id) {
-    Map<String, Boolean> response = new HashMap<String, Boolean>();
+  public ResponseEntity<Object>  deleteMovieTicket(@PathVariable(value = "id") Long id) {
     ResponseExceptionModel  responseException = movieTicketService.delete(id);
-
-    if (isDeleteStatus == false) {
-      response.put("undeleted", isDeleteStatus);
-      return response;
-    }
-    response.put("deleted", isDeleteStatus);
-    return response;
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 }

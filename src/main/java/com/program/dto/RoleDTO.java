@@ -30,7 +30,7 @@ public class RoleDTO {
 
   public RoleEntity convert() {
     final RoleEntity entity = new RoleEntity();
-    entity.setRoleId(this.roleId);
+//    entity.setRoleId(this.roleId);
     entity.setRoleName(this.roleName);
     entity.setDescription(this.description);
     return entity;

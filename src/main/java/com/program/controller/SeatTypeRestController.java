@@ -1,9 +1,6 @@
 package com.program.controller;
 
-import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.SeatTypeDTO;
@@ -44,35 +40,19 @@ public class SeatTypeRestController {
 
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createSeatType(@RequestBody SeatTypeDTO model) {
-    ResponseExceptionModel response = seatTypeService.insert(model);
-    if (response.isStatus() == false) {
-      return ResponseEntity.notFound().build();
-    }
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(RestContant.REST_BY_ID)
-        .buildAndExpand(model.getSeatTypeId()).toUri();
-    return ResponseEntity.created(location).build();
+    ResponseExceptionModel responseException = seatTypeService.insert(model);
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
   public ResponseEntity<Object> updateSeatType(@RequestBody SeatTypeDTO model) {
-    SeatTypeDTO seatTypeOptional = seatTypeService.findById(model.getSeatTypeId());
-    if (seatTypeOptional == null) {
-      return ResponseEntity.notFound().build();
-    }
-    seatTypeService.update(model);
-    return ResponseEntity.noContent().build();
+    ResponseExceptionModel responseException = seatTypeService.update(model);
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
-  public Map<String, Boolean> deleteSeatType(@PathVariable(value = "id") Long id) {
-    Map<String, Boolean> response = new HashMap<String, Boolean>();
+  public ResponseEntity<Object> deleteSeatType(@PathVariable(value = "id") Long id) {
     ResponseExceptionModel responseException = seatTypeService.delete(id);
-
-    if (responseException.isStatus() == false) {
-      response.put("undeleted", isDeleteStatus);
-      return response;
-    }
-    response.put("deleted", isDeleteStatus);
-    return response;
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 }

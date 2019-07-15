@@ -1,9 +1,6 @@
 package com.program.controller;
 
-import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.UserDTO;
@@ -45,34 +41,18 @@ public class UserRestController {
   @PostMapping(value = RestContant.REST_ADD)
   public @ResponseBody ResponseEntity<Object> createUser(@RequestBody UserDTO model) {
     ResponseExceptionModel  responseException = userService.insert(model);
-    if (responseException.isStatus() == false) {
-      return ResponseEntity.notFound().build();
-    }
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(RestContant.REST_BY_ID)
-        .buildAndExpand(model.getUserId()).toUri();
-    return ResponseEntity.created(location).build();
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
-  public @ResponseBody ResponseEntity<Object> updateUser(@RequestBody UserDTO model) {
-    UserDTO userOptional = userService.findById(model.getUserId());
-    if (userOptional == null) {
-      return ResponseEntity.notFound().build();
-    }
-    userService.update(model);
-    return ResponseEntity.noContent().build();
+  public @ResponseBody ResponseEntity<Object> updateUser(@RequestBody UserDTO model) {   
+    ResponseExceptionModel  responseException  = userService.update(model);
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
-  public @ResponseBody Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long id) {
-    Map<String, Boolean> response = new HashMap<String, Boolean>();
+  public @ResponseBody Object deleteUser(@PathVariable(value = "id") Long id) {
     ResponseExceptionModel  responseException = userService.delete(id);
-
-    if (isDeleteStatus == false) {
-      response.put("undeleted", isDeleteStatus);
-      return response;
-    }
-    response.put("deleted", isDeleteStatus);
-    return response;
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 }

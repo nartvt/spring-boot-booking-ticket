@@ -3,21 +3,22 @@ package com.program.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.program.dto.MovieTicketDTO;
 import com.program.entity.MovieTicketEntity;
+import com.program.error.ResponseExceptionModel;
 import com.program.repository.MovieTicketRepository;
 import com.program.service.MovieTicketService;
-
 
 @Service
 public class MovieTicketServiceImpl implements MovieTicketService {
 
-  @Autowired 
+  @Autowired
   private MovieTicketRepository movieTicketRepository;
-  
+
   @Override
   public List<MovieTicketDTO> findAll() {
     final List<MovieTicketEntity> entitys = movieTicketRepository.findAll();
@@ -41,26 +42,33 @@ public class MovieTicketServiceImpl implements MovieTicketService {
 
   @Override
   public ResponseExceptionModel insert(MovieTicketDTO model) {
-    movieTicketRepository.save(model.convert());
-    return true;
+    if (movieTicketRepository.findById(model.getTicketId()) != null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Ticket Code alreadly exists", HttpStatus.CONFLICT);
+    }
+    if (movieTicketRepository.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Can't add new ticket, something went wrong",
+          HttpStatus.CONFLICT);
+    } else {
+      return new ResponseExceptionModel(Boolean.TRUE, "Success, new movie ticket created", HttpStatus.CONFLICT);
+    }
   }
 
   @Override
   public ResponseExceptionModel update(MovieTicketDTO model) {
-    final MovieTicketEntity entity = movieTicketRepository.save(model.convert());
-    if (entity == null) {
-      return false;
+    if (movieTicketRepository.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.TRUE, "Movie update Success", HttpStatus.OK);
     }
-    return true;
+    return new ResponseExceptionModel(Boolean.FALSE, "can't update movie, something went wrong",
+        HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @Override
   public ResponseExceptionModel delete(Long id) {
     if (id == null) {
-      return false;
+      return new ResponseExceptionModel(Boolean.FALSE, "Id cannot be null", HttpStatus.BAD_REQUEST);
     }
     movieTicketRepository.deleteById(id);
-    return true;
+    return new ResponseExceptionModel(Boolean.TRUE, "Delete Success", HttpStatus.OK);
   }
 
 }

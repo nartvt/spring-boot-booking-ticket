@@ -3,11 +3,13 @@ package com.program.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.program.dto.CinemaDTO;
 import com.program.entity.CinemaEntity;
+import com.program.error.ResponseExceptionModel;
 import com.program.repository.CinemaRepository;
 import com.program.service.CinemaService;
 
@@ -40,29 +42,33 @@ public class CinemaServiceImpl implements CinemaService {
 
   @Override
   public ResponseExceptionModel insert(final CinemaDTO model) {
-    if (cinemaRepository.findByCinemaName(model.getCinemaName()) != null) {
-      return false;
+    if (cinemaRepository.findById(model.getCinemaId()) != null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Cinema id  alreadly exists", HttpStatus.CONFLICT);
     }
-    cinemaRepository.save(model.convert());
-    return true;
+    if (cinemaRepository.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.FALSE, "Can't add new Cinema, something went wrong",
+          HttpStatus.CONFLICT);
+    } else {
+      return new ResponseExceptionModel(Boolean.TRUE, "Success, new Cinema created", HttpStatus.CONFLICT);
+    }
   }
 
   @Override
   public ResponseExceptionModel update(final CinemaDTO model) {
-    final CinemaEntity entity = cinemaRepository.save(model.convert());
-    if (entity == null) {
-      return false;
+    if (cinemaRepository.save(model.convert()) != null) {
+      return new ResponseExceptionModel(Boolean.TRUE, "Cinema update Success", HttpStatus.OK);
     }
-    return true;
+    return new ResponseExceptionModel(Boolean.FALSE, "can't update Cinema, something went wrong",
+        HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   @Override
   public ResponseExceptionModel delete(final Long id) {
     if (id == null) {
-      return false;
+      return new ResponseExceptionModel(Boolean.FALSE, "Id cannot be null", HttpStatus.BAD_REQUEST);
     }
     cinemaRepository.deleteById(id);
-    return true;
+    return new ResponseExceptionModel(Boolean.TRUE, "Delete Success", HttpStatus.OK);
   }
 
 }

@@ -1,9 +1,6 @@
 package com.program.controller;
 
-import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.ShowTimesDTO;
@@ -44,35 +40,19 @@ public class ShowTimesRestController {
 
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createShowTime(@RequestBody ShowTimesDTO model) {
-    ResponseExceptionModel  responseException = showtimeService.insert(model);
-    if (status == false) {
-      return ResponseEntity.notFound().build();
-    }
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(RestContant.REST_BY_ID)
-        .buildAndExpand(model.getShowTimeId()).toUri();
-    return ResponseEntity.created(location).build();
+    ResponseExceptionModel responseException = showtimeService.insert(model);
+    return new ResponseEntity<>(responseException, responseException.getHttpCode());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
   public ResponseEntity<Object> updateShowTime(@RequestBody ShowTimesDTO model) {
-    ShowTimesDTO showTimeOptional = showtimeService.findById(model.getShowTimeId());
-    if (showTimeOptional == null) {
-      return ResponseEntity.notFound().build();
-    }
-    showtimeService.update(model);
-    return ResponseEntity.noContent().build();
+    ResponseExceptionModel responseException = showtimeService.update(model);
+    return new ResponseEntity<>(responseException, responseException.getHttpCode());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
-  public Map<String, Boolean> deleteShowTime(@PathVariable(value = "id") Long id) {
-    Map<String, Boolean> response = new HashMap<String, Boolean>();
-    boolean isDeleteStatus = showtimeService.delete(id);
-
-    if (isDeleteStatus == false) {
-      response.put("undeleted", isDeleteStatus);
-      return response;
-    }
-    response.put("deleted", isDeleteStatus);
-    return response;
+  public ResponseEntity<Object> deleteShowTime(@PathVariable(value = "id") Long id) {
+    ResponseExceptionModel responseException = showtimeService.delete(id);
+    return new ResponseEntity<>(responseException, responseException.getHttpCode());
   }
 }

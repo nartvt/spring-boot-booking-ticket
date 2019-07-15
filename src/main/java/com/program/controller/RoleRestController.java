@@ -1,9 +1,6 @@
 package com.program.controller;
 
-import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.RoleDTO;
@@ -44,35 +40,19 @@ public class RoleRestController {
 
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createRole(@RequestBody RoleDTO model) {
-    ResponseExceptionModel response  = roleService.insert(model);
-    if (status == false) {
-      return ResponseEntity.notFound().build();
-    }
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(RestContant.REST_BY_ID)
-        .buildAndExpand(model.getRoleId()).toUri();
-    return ResponseEntity.created(location).build();
+    ResponseExceptionModel responseException  = roleService.insert(model);
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 
   @PutMapping(value = RestContant.REST_UPDATE)
   public ResponseEntity<Object> updateRole(@RequestBody RoleDTO model) {
-    RoleDTO roleOptional = roleService.findById(model.getRoleId());
-    if (roleOptional == null) {
-      return ResponseEntity.notFound().build();
-    }
-    roleService.update(model);
-    return ResponseEntity.noContent().build();
+    ResponseExceptionModel  responseException = roleService.update(model);
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
-  public Map<String, Boolean> deleteRole(@PathVariable(value = "id") Long roleId) {
-    Map<String, Boolean> response = new HashMap<String, Boolean>();
+  public ResponseEntity<Object>  deleteRole(@PathVariable(value = "id") Long roleId) {
     ResponseExceptionModel  responseException = roleService.delete(roleId);
-
-    if (isDeleteStatus == false) {
-      response.put("undeleted", isDeleteStatus);
-      return response;
-    }
-    response.put("deleted", isDeleteStatus);
-    return response;
+    return new ResponseEntity<>(responseException,responseException.getHttpCode());
   }
 }

@@ -1,9 +1,6 @@
 package com.program.controller;
 
-import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.program.conmmon.RestContant;
 import com.program.dto.CinemaDTO;
@@ -44,36 +40,20 @@ public class CinemaRestController {
 
   @PostMapping(value = RestContant.REST_ADD)
   public ResponseEntity<Object> createCinema(@RequestBody CinemaDTO model) {
-    ResponseExceptionModel responseException  = cinemaService.insert(model);
-    if (status == false) {
-      return ResponseEntity.notFound().build();
-    }
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(RestContant.REST_BY_ID)
-        .buildAndExpand(model.getCinemaId()).toUri();
-    return ResponseEntity.created(location).build();
+    ResponseExceptionModel responseException = cinemaService.insert(model);
+    return new ResponseEntity<>(responseException, responseException.getHttpCode());
   }
 
-  @PutMapping(value =RestContant.REST_UPDATE)
+  @PutMapping(value = RestContant.REST_UPDATE)
   public ResponseEntity<Object> updateCinema(@RequestBody CinemaDTO model) {
-    CinemaDTO cinemaOptional = cinemaService.findById(model.getCinemaId());
-    if (cinemaOptional == null) {
-      return ResponseEntity.notFound().build();
-    }
-    cinemaService.update(model);
-    return ResponseEntity.noContent().build();
+    ResponseExceptionModel responseException = cinemaService.update(model);
+    return new ResponseEntity<>(responseException, responseException.getHttpCode());
   }
 
   @DeleteMapping(value = RestContant.REST_DELETE_BY_ID)
-  public Map<String, Boolean> deleteCinema(@PathVariable(value = "id") Long cinemaId) {
-    Map<String, Boolean> response = new HashMap<String, Boolean>();
-    ResponseExceptionModel  responseException = cinemaService.delete(cinemaId);
-
-    if (isDeleteStatus == false) {
-      response.put("undeleted", isDeleteStatus);
-      return response;
-    }
-    response.put("deleted", isDeleteStatus);
-    return response;
+  public ResponseEntity<Object> deleteCinema(@PathVariable(value = "id") Long cinemaId) {
+    ResponseExceptionModel responseException = cinemaService.delete(cinemaId);
+    return new ResponseEntity<>(responseException, responseException.getHttpCode());
   }
 
 }
