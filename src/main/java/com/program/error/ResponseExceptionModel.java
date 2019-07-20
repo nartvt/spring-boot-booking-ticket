@@ -9,14 +9,14 @@ public class ResponseExceptionModel {
   private String message;
   private int httpCode;
   private HttpStatus httpMessage;
-  private LocalDateTime dateTime;
+  private LocalDateTime timestamp;
 
   public ResponseExceptionModel(boolean status, String message, HttpStatus httpMessage) {
     this.status = status;
     this.message = message;
     this.httpMessage = httpMessage;
     this.httpCode = httpMessage.value();
-    this.dateTime = LocalDateTime.now();
+    this.timestamp = LocalDateTime.now();
   }
 
   public ResponseExceptionModel() {
@@ -39,7 +39,7 @@ public class ResponseExceptionModel {
   }
 
   public LocalDateTime getDateTime() {
-    return dateTime;
+    return timestamp;
   }
 
 }
