@@ -14,23 +14,22 @@ import com.program.authentication.JWTAuthenticationFilter;
 import com.program.authentication.JWTAuthorizationFilter;
 
 
-@EnableWebSecurity
+ 
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Autowired
   private UserDetailsService userDetailService;
 
-  @Bean
+  
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
-  @Override
+   
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
   }
 
-  @Override
+ 
   protected void configure(HttpSecurity http) throws Exception {
     http.cors();
     http.csrf()
