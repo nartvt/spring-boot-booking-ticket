@@ -16,8 +16,6 @@ public class RoleDTO {
   @NotBlank(message = "Role description cannot be NULL")
   private String description;
 
-  public Set<UserDTO> users;
-
   public RoleDTO() {
 
   }
@@ -58,14 +56,6 @@ public class RoleDTO {
 
   public void setDescription(String description) {
     this.description = description;
-  }
-
-  public Set<UserDTO> getUsers() {
-    return users;
-  }
-
-  public void setUsers(Set<UserDTO> users) {
-    this.users = users;
   }
 
 }

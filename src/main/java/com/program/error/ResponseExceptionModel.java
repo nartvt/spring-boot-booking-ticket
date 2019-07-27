@@ -18,7 +18,7 @@ public class ResponseExceptionModel {
     this.httpCode = httpMessage.value();
     this.timestamp = LocalDateTime.now();
   }
-
+  
   public ResponseExceptionModel() {
   }
 
