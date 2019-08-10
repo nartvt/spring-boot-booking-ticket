@@ -28,16 +28,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/css/jquery.seat-charts.css",
-              "src/assets/css/style_booking.css",
+              // "src/assets/css/font-awesome.css",
+              "src/assets/css/style.css",
               "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "src/assets/js/jquery.seat-charts.js",
-              "src/assets/js/booking.js",
-              "node_modules/jquery.nicescroll/dist/jquery.nicescroll.min.js",
-              "src/assets/js/scripts.js"
+              "src/assets/js/booking.js"
+             
             ]
           },
           "configurations": {
