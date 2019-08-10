@@ -1,10 +1,3 @@
-/*
-Author: W3layout
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
-*/
-
 /*--reset--*/
 
 html,
@@ -14,7 +7,7 @@ span,
 applet,
 object,
 iframe,
-h1,
+/* h1, */
 h2,
 h3,
 h4,
@@ -138,10 +131,10 @@ table {
 
 td {
     width: 40px;
-    font-weight: 600;
+    font-weight: 400;
     font-size: 1em;
-    padding-top: 7px;
-    height: 24px;
+    padding-top: 5px;
+    height: 20px;
     color: #fff;
 }
 
@@ -289,9 +282,9 @@ body {
     -ms-flex-pack: center;
     -webkit-justify-content: center;
     justify-content: center;
-    height: 100%;
+    height: 50%;
 }
-
+/* 
 h1 {
     font-size: 2.9em;
     text-transform: uppercase;
@@ -302,7 +295,7 @@ h1 {
     text-align: center;
     margin: 0.8em 1vw .9em;
     font-family: 'Source Sans Pro', sans-serif;
-}
+} */
 
 h2 {
     color: #ff9800;
@@ -319,8 +312,8 @@ h2 {
     width: 100%;
 }
 
-.agileits-left {
-    flex-basis: 60%;
+.customerName {
+    flex-basis: 50%;
     margin-bottom: 1.5em;
 }
 
@@ -331,8 +324,8 @@ li.smallBox {
     color: #fff;
 }
 
-.agileits-right {
-    flex-basis: 40%;
+.numberOfSeats {
+    flex-basis: 50%;
     margin-bottom: 1.5em;
 }
 
@@ -512,21 +505,21 @@ input[type=checkbox]:checked:before {
 /*--responsive--*/
 
 @media(max-width:1920px) {
-    h1 {
+    /* h1 {
         font-size: 3.5vw;
-    }
+    } */
 }
 
 @media(max-width:1024px) {
-    h1 {
+    /* h1 {
         font-size: 4.5vw;
-    }
+    } */
 }
 
 @media(max-width:800px) {
-    h1 {
+    /* h1 {
         font-size: 5vw;
-    }
+    } */
 }
 
 @media(max-width:667px) {
@@ -557,24 +550,24 @@ input[type=checkbox]:checked:before {
     .w3ls-reg {
        width: 450px;
     }
-    h1 {
+    /* h1 {
         font-size: 2.5em;
-    }
+    } */
     .w3ls-login form {
         padding: 7.5vw;
     }
 }
 
 @media(max-width:440px) {
-    h1 {
+    /* h1 {
         font-size: 2.3em;
-    }
+    } */
 }
 
 @media(max-width:414px) {
-    h1 {
+    /* h1 {
         font-size: 2em;
-    }
+    } */
    .w3ls-reg {
        width: 370px;
     }
@@ -589,9 +582,9 @@ input[type=checkbox]:checked:before {
 }
 
 @media(max-width:384px) {
-    h1 {
+    /* h1 {
         font-size: 1.9em;
-    }
+    } */
     .w3ls-reg {
        width: 350px;
     }
@@ -601,9 +594,9 @@ input[type=checkbox]:checked:before {
 }
 
 @media(max-width:320px) {
-    h1 {
+    /* h1 {
         font-size: 1.5em;
-    }
+    } */
     .w3ls-reg {
        width: 280px;
     }

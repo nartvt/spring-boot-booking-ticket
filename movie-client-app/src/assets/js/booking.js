@@ -18,7 +18,7 @@ function takeData() {
       $(".inputForm *").prop("disabled", true);
       $(".seatStructure *").prop("disabled", false);
       document.getElementById("notification").innerHTML =
-          "<b style='margin-bottom:0px;background:#ff9800;letter-spacing:1px; display: inline;'>Vui Long Chon Ghe Cua Ban</b>";
+          "<b style='margin-bottom:0px;background:#ff9800;letter-spacing:1px; display: inline;'>Please choose your seats</b>";
   }
 }
 
