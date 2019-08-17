@@ -7,7 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "User")
 public class UserEntity {
@@ -35,10 +38,15 @@ public class UserEntity {
   @Column(name = "avatar")
   private String avatar;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = true)
-  @JoinColumn(name = "roleId", nullable = true)
+
+  @JsonIgnore
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinTable(name = "UserRole",
+  joinColumns = @JoinColumn(name="userId",referencedColumnName = "userId",unique = true ),
+  inverseJoinColumns = @JoinColumn(name="roleId",referencedColumnName = "roleId"))
   private RoleEntity role;
 
+  
   public Long getUserId() {
     return userId;
   }

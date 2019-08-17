@@ -1,7 +1,9 @@
 package com.program.entity;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,11 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-@Entity(name = "MovieTicket")
-public class MovieTicketEntity {
-  
+@Entity
+@Table(name = "TicketMovie")
+public class TicketEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ticketId")
@@ -26,16 +30,18 @@ public class MovieTicketEntity {
   @Column(name = "bookingDate")
   private Timestamp bookingDate;
 
-  @OneToOne(fetch = FetchType.LAZY, optional = true)
-  @JoinColumn(name = "seatId", nullable = true)
-  private SeatEntity seat;
+  @OneToMany(mappedBy = "ticketEntity", 
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY,
+      orphanRemoval = true)
+  private Set<SeatEntity> seats;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "userId", nullable = true)
   private UserEntity user;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = true)
-  @JoinColumn(name = "showtimeId", nullable = true)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "showtimeId", nullable = false)
   private ShowtimeEntity show;
 
   public Long getTicketId() {
@@ -62,20 +68,11 @@ public class MovieTicketEntity {
     this.bookingDate = bookingDate;
   }
 
-  public SeatEntity getSeat() {
-    return seat;
-  }
-
-  public MovieTicketEntity setSeat(SeatEntity seat) {
-    this.seat = seat;
-    return this;
-  }
-
   public UserEntity getUser() {
     return user;
   }
 
-  public MovieTicketEntity setUser(UserEntity user) {
+  public TicketEntity setUser(UserEntity user) {
     this.user = user;
     return this;
   }
@@ -84,9 +81,17 @@ public class MovieTicketEntity {
     return show;
   }
 
-  public MovieTicketEntity setShow(ShowtimeEntity show) {
+  public TicketEntity setShow(ShowtimeEntity show) {
     this.show = show;
     return this;
+  }
+
+  public Set<SeatEntity> getSeats() {
+    return seats;
+  }
+
+  public void setSeats(Set<SeatEntity> seats) {
+    this.seats = seats;
   }
 
 }

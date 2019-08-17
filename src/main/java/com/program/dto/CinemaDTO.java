@@ -35,7 +35,6 @@ public class CinemaDTO {
 
   public CinemaEntity convert() {
     CinemaEntity entity = new CinemaEntity();
-    entity.setCinemaId(this.cinemaId);
     entity.setCinemaName(this.cinemaName);
     entity.setCinemaPhone(this.cinemaPhone);
     entity.setCinemaInfo(this.cinemaInfo);

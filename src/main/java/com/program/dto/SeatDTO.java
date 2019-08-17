@@ -1,7 +1,10 @@
 package com.program.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.program.entity.CinemaRoomEntity;
-import com.program.entity.MovieTicketEntity;
+import com.program.entity.TicketEntity;
 import com.program.entity.SeatEntity;
 import com.program.entity.SeatTypeEntity;
 
@@ -11,7 +14,7 @@ public class SeatDTO {
 
   private String seatName;
 
-  private Long room;
+  private Set<Long> rooms;
 
   private Long seatType;
 
@@ -24,8 +27,10 @@ public class SeatDTO {
   public SeatDTO(final SeatEntity entity) {
     this.seatId = entity.getSeatId();
     this.seatName = entity.getSeatName();
-    if (entity.getRoom().getRoomId() != null) {
-      this.room = entity.getRoom().getRoomId();
+    if (entity.getCinemaRooms() != null) {
+      entity.getCinemaRooms().stream().forEach(room -> {
+        this.rooms.add(room.getRoomId());
+      });
     }
     if (entity.getSeatType().getSeatTypeId() != null) {
       this.seatType = entity.getSeatType().getSeatTypeId();
@@ -38,20 +43,26 @@ public class SeatDTO {
 
   public SeatEntity convert() {
     final SeatEntity entity = new SeatEntity();
-    entity.setSeatId(this.seatId);
+    entity.setCinemaRooms(new HashSet<>());
+
     entity.setSeatName(this.seatName);
 
-    CinemaRoomEntity cinemaRoomEntity = new CinemaRoomEntity();
-    cinemaRoomEntity.setRoomId(this.room);
-    entity.setRoom(cinemaRoomEntity);
+    if (this.rooms != null) {
+      this.rooms.stream().forEach(room -> {
+        CinemaRoomEntity cinemaRoomEntity = new CinemaRoomEntity();
+        cinemaRoomEntity.setRoomId(room);
+        entity.getCinemaRooms().add(cinemaRoomEntity);
+      });
+
+    }
 
     SeatTypeEntity seatTypeEntity = new SeatTypeEntity();
     seatTypeEntity.setSeatTypeId(this.seatType);
     entity.setSeatType(seatTypeEntity);
 
-    MovieTicketEntity movieTicketEntity = new MovieTicketEntity();
-    movieTicketEntity.setTicketId(this.ticket);
-    entity.setTicket(movieTicketEntity);
+    TicketEntity ticketEntity = new TicketEntity();
+    ticketEntity.setTicketId(this.ticket);
+    entity.setTicket(ticketEntity);
     return entity;
   }
 
@@ -69,14 +80,6 @@ public class SeatDTO {
 
   public void setSeatName(String seatName) {
     this.seatName = seatName;
-  }
-
-  public Long getRoom() {
-    return room;
-  }
-
-  public void setRoom(Long room) {
-    this.room = room;
   }
 
   public Long getSeatType() {

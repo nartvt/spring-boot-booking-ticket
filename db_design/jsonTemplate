@@ -1,0 +1,95 @@
+# Cinema
+{
+    "cinemaId": ,
+    "cinemaName": ,
+    "cinemaAddress": ,
+    "cinemaPhone":,
+    "cinemaInfo": ,
+    "cinemaImage":,
+    "cineplexEntity":
+}
+
+# CinemaRoom
+{
+  "roomId":,
+  "roomName":,
+  "quantitySeat":,
+  "cinemaEntity":
+}
+
+# CinePlex
+{
+   "cineplexId": ,
+
+ "cineplexName":,
+
+  "cineplexLogo":
+}
+
+# Movie 
+{
+    "movieId":,
+    "movieName":,
+    "movieImage":,
+    "trailer":,
+    "description":,
+    "movieDuration":,
+    "movieReleaseDate":,
+    "review":
+}
+
+# MovieTicket
+{
+    "ticketId"":,
+    "totalAmount":,
+    "bookingDate":,
+    "seatEntityId":,
+    "userEntityId":,
+    "showtimeEntityId"
+}
+
+#Role
+{
+    "roleId":,
+    "roleName":,
+    "description":
+}
+
+# Seat
+{
+  "seatId":,
+  "seatName":,
+  "room":,
+  "seatType":,
+  "ticket":
+}
+
+#SeatType
+{
+    "seatTypeId":,
+    "seatTypeName":,
+    "description":,
+    "room":
+}
+
+# ShowTime
+{
+    "showTimeId":,
+    "showDay":,
+    "showDate":,
+    "ticketFare":,
+    "movie":,
+    "room":
+}
+
+#User
+{
+    "userId":,
+    "userName":,
+    "email":,
+    "password":,
+    "address":,
+    "phoneNumber":,
+    "avatar":,
+    "role":
+}

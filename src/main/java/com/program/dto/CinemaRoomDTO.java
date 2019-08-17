@@ -1,6 +1,8 @@
 package com.program.dto;
 
-import com.program.entity.CinemaEntity;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.program.entity.CinemaRoomEntity;
 
 public class CinemaRoomDTO {
@@ -11,7 +13,7 @@ public class CinemaRoomDTO {
 
   private int quantitySeat;
 
-  private Long cinemaEntity;
+  private Set<Long> cinemaEntitys;
 
   public CinemaRoomDTO() {
     
@@ -21,18 +23,18 @@ public class CinemaRoomDTO {
     this.roomId = entity.getRoomId();
     this.roomName = entity.getRoomName();
     this.quantitySeat = entity.getQuantitySeat();
-    this.cinemaEntity = entity.getCinema().getCinemaId();
+   entity.getCinemas().stream().forEach(cinema->{
+     this.cinemaEntitys.add(cinema.getCinemaId());
+   });
   }
   
   public CinemaRoomEntity convert() {
     CinemaRoomEntity entity = new CinemaRoomEntity();
-    entity.setRoomId(this.roomId);
+    entity.setCinemas(new HashSet<>());
     entity.setRoomName(this.roomName);
     entity.setQuantitySeat(this.quantitySeat);
     
-    CinemaEntity cinemaEntity = new CinemaEntity();
-    cinemaEntity.setCinemaId(this.cinemaEntity);
-    entity.setCinema(cinemaEntity);
+    
     return entity;
   }
   
@@ -60,11 +62,11 @@ public class CinemaRoomDTO {
     this.quantitySeat = quantitySeat;
   }
 
-  public Long getCinema() {
-    return cinemaEntity;
+  public Set<Long> getCinemas() {
+    return cinemaEntitys;
   }
 
-  public void setCinema(Long cinema) {
-    this.cinemaEntity = cinema;
+  public void setCinema(Set<Long> cinemaEntitys) {
+    this.cinemaEntitys = cinemaEntitys;
   }
 }

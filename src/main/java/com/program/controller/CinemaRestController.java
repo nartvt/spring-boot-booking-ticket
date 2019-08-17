@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.program.conmmon.RestContant;
@@ -27,13 +26,13 @@ public class CinemaRestController {
   private CinemaService cinemaService;
 
   @GetMapping(value = RestContant.REST_ALL)
-  public @ResponseBody List<CinemaDTO> cinemas() {
+  public List<CinemaDTO> cinemas() {
     List<CinemaDTO> cinemaDTOs = cinemaService.findAll();
     return cinemaDTOs;
   }
 
   @GetMapping(value = RestContant.REST_BY_ID)
-  public @ResponseBody CinemaDTO cinema(@PathVariable("id") Long cinemaId) {
+  public CinemaDTO cinema(@PathVariable("id") Long cinemaId) {
     CinemaDTO cinemaDTO = cinemaService.findById(cinemaId);
     return cinemaDTO;
   }

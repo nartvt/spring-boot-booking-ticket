@@ -9,11 +9,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity(name = "Movie")
+@Entity
+@Table(name = "Movie")
 public class MovieEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +50,14 @@ public class MovieEntity {
   @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY)
   private Set<ShowtimeEntity> showtimes;
 
+  @JsonIgnore
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(name = "CinemaMovie", 
+  joinColumns = @JoinColumn(name = "movieId", referencedColumnName = "movieId"), 
+  inverseJoinColumns = @JoinColumn(name = "cinemaId", referencedColumnName = "cinemaId"))
+  private Set<CinemaEntity> cinemaEntitys;
+  
+  
   public Long getMovieId() {
     return movieId;
   }
@@ -115,6 +128,14 @@ public class MovieEntity {
 
   public void setShowtimes(Set<ShowtimeEntity> showtimes) {
     this.showtimes = showtimes;
+  }
+
+  public Set<CinemaEntity> getCinemaEntitys() {
+    return cinemaEntitys;
+  }
+
+  public void setCinemaEntitys(Set<CinemaEntity> cinemaEntitys) {
+    this.cinemaEntitys = cinemaEntitys;
   }
 
 }

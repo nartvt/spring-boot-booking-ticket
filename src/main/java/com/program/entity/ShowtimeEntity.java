@@ -3,7 +3,6 @@ package com.program.entity;
 import java.sql.Timestamp;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "Showtimes")
 public class ShowtimeEntity {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "showTimeId")
@@ -41,9 +40,10 @@ public class ShowtimeEntity {
   @JoinColumn(name = "roomId", nullable = true)
   private CinemaRoomEntity room;
 
+//
   @JsonIgnore
-  @OneToMany(mappedBy = "show", cascade = CascadeType.ALL)
-  private Set<MovieTicketEntity> movieTickets;
+  @OneToMany(mappedBy = "show", fetch = FetchType.LAZY)
+  private Set<TicketEntity> movieTickets;
 
   public Long getShowTimeId() {
     return showTimeId;
@@ -93,12 +93,11 @@ public class ShowtimeEntity {
     this.room = room;
   }
 
-  public Set<MovieTicketEntity> getMovieTickets() {
+  public Set<TicketEntity> getMovieTickets() {
     return movieTickets;
   }
 
-  public void setMovieTickets(Set<MovieTicketEntity> movieTickets) {
+  public void setMovieTickets(Set<TicketEntity> movieTickets) {
     this.movieTickets = movieTickets;
   }
-
 }

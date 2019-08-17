@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
-import com.program.dto.MovieTicketDTO;
-import com.program.entity.MovieTicketEntity;
+import com.program.dto.TicketDTO;
+import com.program.entity.TicketEntity;
 import com.program.error.ResponseExceptionModel;
 import com.program.repository.MovieTicketRepository;
 import com.program.service.MovieTicketService;
@@ -20,28 +20,28 @@ public class MovieTicketServiceImpl implements MovieTicketService {
   private MovieTicketRepository movieTicketRepository;
 
   @Override
-  public List<MovieTicketDTO> findAll() {
-    final List<MovieTicketEntity> entitys = movieTicketRepository.findAll();
+  public List<TicketDTO> findAll() {
+    final List<TicketEntity> entitys = movieTicketRepository.findAll();
     if (entitys != null) {
-      final List<MovieTicketDTO> movieTicketDTOs = Lists.newArrayList();
+      final List<TicketDTO> ticketDTOs = Lists.newArrayList();
       entitys.forEach(entity -> {
-        final MovieTicketDTO dto = new MovieTicketDTO(entity);
-        movieTicketDTOs.add(dto);
+        final TicketDTO dto = new TicketDTO(entity);
+        ticketDTOs.add(dto);
       });
-      return movieTicketDTOs;
+      return ticketDTOs;
     }
 
     return Lists.newArrayList();
   }
 
   @Override
-  public MovieTicketDTO findById(Long id) {
-    final MovieTicketEntity entity = movieTicketRepository.findById(id).get();
-    return new MovieTicketDTO(entity);
+  public TicketDTO findById(Long id) {
+    final TicketEntity entity = movieTicketRepository.findById(id).get();
+    return new TicketDTO(entity);
   }
 
   @Override
-  public ResponseExceptionModel insert(MovieTicketDTO model) {
+  public ResponseExceptionModel insert(TicketDTO model) {
     if (movieTicketRepository.findById(model.getTicketId()) != null) {
       return new ResponseExceptionModel(Boolean.FALSE, "Ticket Code alreadly exists", HttpStatus.CONFLICT);
     }
@@ -54,7 +54,7 @@ public class MovieTicketServiceImpl implements MovieTicketService {
   }
 
   @Override
-  public ResponseExceptionModel update(MovieTicketDTO model) {
+  public ResponseExceptionModel update(TicketDTO model) {
     if (movieTicketRepository.save(model.convert()) != null) {
       return new ResponseExceptionModel(Boolean.TRUE, "Movie update Success", HttpStatus.OK);
     }

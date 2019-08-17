@@ -38,7 +38,6 @@ public class MovieDTO {
 
   public MovieEntity convert() {
     final MovieEntity entity = new MovieEntity();
-    entity.setMovieId(this.movieId);
     entity.setMovieName(this.movieName);
     entity.setMovieImage(this.movieImage);
     entity.setTrailer(this.trailer);

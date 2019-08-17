@@ -9,32 +9,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "Cinema")
 public class CinemaEntity {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name="cinemaId")
+  @Column(name = "cinemaId")
   private Long cinemaId;
-  
-  @Column(name="cinemaName")
+
+  @Column(name = "cinemaName")
   private String cinemaName;
-  
-  @Column(name="cinemaAddress")
+
+  @Column(name = "cinemaAddress")
   private String cinemaAddress;
-  
-  @Column(name="cinemaPhone")
+
+  @Column(name = "cinemaPhone")
   private String cinemaPhone;
-  
-  @Column(name="cinemaInfo")
+
+  @Column(name = "cinemaInfo")
   private String cinemaInfo;
-  
-  @Column(name="cinemaImage")
+
+  @Column(name = "cinemaImage")
   private String cinemaImage;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = true)
@@ -42,8 +42,20 @@ public class CinemaEntity {
   private CineplexEntity cineplex;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "cinema",fetch = FetchType.LAZY)
+  @ManyToMany(mappedBy = "cinemaEntitys",fetch = FetchType.LAZY)
+  private Set<MovieEntity> movieEntity;
+
+  @JsonIgnore
+  @ManyToMany(mappedBy = "cinemas",fetch = FetchType.LAZY)
   private Set<CinemaRoomEntity> cinemaRooms;
+
+  public Set<MovieEntity> getMovieEntity() {
+    return movieEntity;
+  }
+
+  public void setMovieEntity(Set<MovieEntity> movieEntity) {
+    this.movieEntity = movieEntity;
+  }
 
   public Long getCinemaId() {
     return cinemaId;

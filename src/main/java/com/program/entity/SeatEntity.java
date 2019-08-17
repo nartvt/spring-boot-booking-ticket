@@ -1,5 +1,7 @@
 package com.program.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,8 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "Seat")
 public class SeatEntity {
@@ -21,16 +26,18 @@ public class SeatEntity {
   @Column(name = "seatName")
   private String seatName;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = true)
-  @JoinColumn(name = "roomId", nullable = true)
-  private CinemaRoomEntity room;
-
-  @ManyToOne(fetch = FetchType.LAZY, optional = true)
-  @JoinColumn(name = "seatTypeId",nullable = true)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "seatTypeId", nullable = false)
   private SeatTypeEntity seatType;
 
-  @OneToOne(mappedBy = "seat")
-  private MovieTicketEntity ticket;
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "ticketId")
+  private TicketEntity ticketEntity;
+
+  @JsonIgnore
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(name = "CinemaSeat", joinColumns = @JoinColumn(name = "seatId", referencedColumnName = "seatId"), inverseJoinColumns = @JoinColumn(name = "roomId", referencedColumnName = "roomId"))
+  private Set<CinemaRoomEntity> cinemaRooms;
 
   public Long getSeatId() {
     return seatId;
@@ -48,14 +55,6 @@ public class SeatEntity {
     this.seatName = seatName;
   }
 
-  public CinemaRoomEntity getRoom() {
-    return room;
-  }
-
-  public void setRoom(CinemaRoomEntity room) {
-    this.room = room;
-  }
-
   public SeatTypeEntity getSeatType() {
     return seatType;
   }
@@ -64,12 +63,20 @@ public class SeatEntity {
     this.seatType = seatType;
   }
 
-  public MovieTicketEntity getTicket() {
-    return ticket;
+  public TicketEntity getTicket() {
+    return ticketEntity;
   }
 
-  public void setTicket(MovieTicketEntity ticket) {
-    this.ticket = ticket;
+  public void setTicket(TicketEntity ticketEntity) {
+    this.ticketEntity = ticketEntity;
+  }
+
+  public Set<CinemaRoomEntity> getCinemaRooms() {
+    return cinemaRooms;
+  }
+
+  public void setCinemaRooms(Set<CinemaRoomEntity> cinemaRooms) {
+    this.cinemaRooms = cinemaRooms;
   }
 
 }

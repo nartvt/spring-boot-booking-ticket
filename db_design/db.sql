@@ -1,9 +1,10 @@
--- disable foreign key check
-SET GLOBAL FOREIGN_KEY_CHECKS=0;
-CREATE DATABASE IF NOT EXISTS MovieDatabase;
+drop database MovieDatabase;
+
+create database MovieDatabase;
 USE MovieDatabase;
-CREATE TABLE IF NOT EXISTS  Movie(
-    movieId varchar(10) not null,
+
+CREATE TABLE  Movie(
+    movieId int AUTO_INCREMENT,
     movieName varchar(100) not null,
     moviePicture varchar(255) not null,
     trailer varchar(255) not null,
@@ -13,94 +14,114 @@ CREATE TABLE IF NOT EXISTS  Movie(
     review varchar(255),
     primary key(movieId)
 );
-SET time_zone='+00:00';
 
-CREATE TABLE IF NOT EXISTS  Showtimes(
-    showtimeId varchar(10) not null,
-    roomId varchar(10) not null,
-    movieId varchar(10) not null,
+CREATE TABLE   Showtimes(
+    showtimeId int AUTO_INCREMENT,
+    roomId int not null,
+    movieId int not null,
     showDay TIMESTAMP NULL,
     showDate TIMESTAMP NULL,
     ticketFare FLOAT not null,
-    PRIMARY KEY(showtimeId),
-    CONSTRAINT FK_SHOWTIME_MOVIE  FOREIGN KEY (movieId) REFERENCES Movie(movieId),
-    CONSTRAINT FK_SHOWTIME_ROOM  FOREIGN KEY (roomId) REFERENCES CinemaRoom(roomId)
+    PRIMARY KEY(showtimeId)
 );
 
-CREATE TABLE IF NOT EXISTS  SeatType(
-    seatTypeId varchar(10) not null,
+CREATE TABLE SeatType(
+    seatTypeId int AUTO_INCREMENT,
     seatTypeName varchar(50) not null,
-    roomId varchar(10) not null,
+    roomId int not null,
     description varchar(200) not null,
-    primary key(seatTypeId),
-    CONSTRAINT FK_SEAT_TYPE_ROOM  FOREIGN KEY (roomId) REFERENCES CinemaRoom(roomId),
+    primary key(seatTypeId)
+    
 );
 
-CREATE TABLE IF NOT EXISTS  Seat(
-    seatId varchar(10) not null,
+CREATE TABLE   Seat(
+    seatId int AUTO_INCREMENT,
     seatName varchar(50) not null,
-    roomId varchar(10) not null,
-    seatTypeId varchar(10) not null,
-    primary key(seatId),
-    CONSTRAINT fk_Seat_CinemaRoom FOREIGN KEY (roomId) REFERENCES CinemaRoom(roomId),
-    CONSTRAINT fk_seat_seatType FOREIGN KEY (seatTypeId) REFERENCES SeatType(seatTypeId)
+    roomId int not null,
+    seatTypeId int not null,
+    primary key(seatId)   
 );
-CREATE TABLE IF NOT EXISTS  MovieTicket(
-    ticketId varchar(10) not null,
-    showtimeId varchar(10) not null,
-    seatId varchar(5) not null,
-    userId varchar(10) not null,
+CREATE TABLE   MovieTicket(
+    ticketId int AUTO_INCREMENT,
+    showtimeId int not null,
+    seatId int not null,
+    userId int not null,
     totalAmount int not null,
     bookingDate TIMESTAMP null,
-    PRIMARY KEY(ticketId),
-    CONSTRAINT FK_TICKET_SHOWTIMES FOREIGN KEY (showtimeId) REFERENCES Showtimes(showtimeId),
-    CONSTRAINT FK_TICKET_Seat FOREIGN KEY (seatId) REFERENCES Seat(seatId),
-    CONSTRAINT FK_TICKET_User FOREIGN KEY (userId) REFERENCES User(userId),
+    PRIMARY KEY(ticketId)  
 );
-CREATE TABLE IF NOT EXISTS  Cineplex(
-     cineplexId varchar(10) not null,
+CREATE TABLE   Cineplex(
+     cineplexId int AUTO_INCREMENT,
      cineplexName varchar(100) not null,
      cineplexLogo varchar(255) not null,
      PRIMARY KEY(cineplexId)
  );
-CREATE TABLE IF NOT EXISTS  Cinema(
-    cinemaId varchar(10) not null,
+
+CREATE TABLE   CinemaMovie(
+    movieId int not null,
+    cinemaId int not null,     
+    PRIMARY KEY (movieId,cinemaId)
+);
+
+CREATE TABLE   Cinema(
+    cinemaId int AUTO_INCREMENT,
     cinemaName varchar(100) not null,
     cinemaAddress varchar(100) not null,
     cinemaPhone varchar(10) not null,
     cinemaInfo varchar(100) not null,
     cinemaImage varchar(255) not null,
-    cineplexId varchar(10) not null,
-    PRIMARY KEY (cinemaId),
-    CONSTRAINT FK_CINEMA_CINEPLEX FOREIGN KEY (cineplexId) REFERENCES Cineplex(cineplexId)
+    cineplexId int not null,
+    PRIMARY KEY (cinemaId)
 );
-CREATE TABLE IF NOT EXISTS  CinemaRoom(
-    roomId varchar(10) not null,
+CREATE TABLE   CinemaRoom(
+    roomId int AUTO_INCREMENT,
     roomName varchar(255) not null,
     seatAmount int not null,
-    cinemaId varchar(10) not null,
-    PRIMARY KEY(roomId),
-    CONSTRAINT FK_ROOM_CINEMA FOREIGN KEY (cinemaId) REFERENCES Cinema(cinemaId)
+    cinemaId int not null,
+    PRIMARY KEY(roomId)    
 );
- CREATE TABLE IF NOT EXISTS  Role(
-     roleId VARCHAR(10) not null,
+ CREATE TABLE   Role(
+     roleId int AUTO_INCREMENT,
      roleName varchar(50) not null,
      description varchar(100),
      PRIMARY key(roleId)
  );
 
-CREATE TABLE IF NOT EXISTS  User(
-    userId varchar(10) not null,
+CREATE TABLE User(
+    userId int AUTO_INCREMENT,
     userName varchar(50) not null,
     email varchar(50) NOT null,
     password varchar(255) not null,
     address varchar(100) not null,
     phoneNumber varchar(10) not null,
     avatar varchar(100),
-    roleId varchar(10) not null,
-    PRIMARY KEY(userId),
-    CONSTRAINT fk_user_role FOREIGN KEY (roleId) REFERENCES Role(roleId)
+    roleId int not null,
+    PRIMARY KEY(userId)
 );
+INSERT INTO  Role(roleName,description) VALUES("ROLE_ADMIN","ADMIN");
+INSERT INTO  Role(roleName,description) VALUES("ROLE_USER","ADMIN");
 
--- enable foreign key check
-SET GLOBAL FOREIGN_KEY_CHECKS=1;
+ALTER TABLE Showtimes ADD CONSTRAINT FK_SHOWTIME_MOVIE  FOREIGN KEY (movieId) REFERENCES Movie(movieId);
+ALTER TABLE Showtimes ADD CONSTRAINT FK_SHOWTIME_ROOM  FOREIGN KEY (roomId) REFERENCES CinemaRoom(roomId);
+
+ALTER TABLE SeatType ADD CONSTRAINT FK_SEAT_TYPE_ROOM  FOREIGN KEY (roomId) REFERENCES CinemaRoom(roomId);
+
+ALTER TABLE Seat ADD CONSTRAINT fk_Seat_CinemaRoom FOREIGN KEY (roomId) REFERENCES CinemaRoom(roomId);
+ALTER TABLE Seat ADD CONSTRAINT fk_seat_seatType FOREIGN KEY (seatTypeId) REFERENCES SeatType(seatTypeId);
+
+
+ALTER TABLE MovieTicket ADD CONSTRAINT FK_TICKET_SHOWTIMES FOREIGN KEY (showtimeId) REFERENCES Showtimes(showtimeId);
+ALTER TABLE MovieTicket ADD CONSTRAINT FK_TICKET_SEAT FOREIGN KEY (seatId) REFERENCES Seat(seatId);
+ALTER TABLE MovieTicket ADD CONSTRAINT FK_TICKET_User FOREIGN KEY (userId) REFERENCES User(userId);
+
+
+ALTER TABLE CinemaMovie ADD CONSTRAINT FK_CINEMAMOVIE_CINEMA FOREIGN KEY (cinemaId) REFERENCES Cinema(cinemaId);
+ALTER TABLE CinemaMovie ADD CONSTRAINT FK_CINEMAMOVIE_MOVIE FOREIGN KEY (movieId) REFERENCES Movie(movieId);
+
+
+ALTER TABLE Cinema ADD CONSTRAINT FK_CINEMA_CINEPLEX FOREIGN KEY (cineplexId) REFERENCES Cineplex(cineplexId);
+
+ALTER TABLE CinemaRoom ADD CONSTRAINT FK_ROOM_CINEMA FOREIGN KEY (cinemaId) REFERENCES Cinema(cinemaId);
+
+ALTER TABLE User ADD CONSTRAINT fk_user_role FOREIGN KEY (roleId) REFERENCES Role(roleId);
+

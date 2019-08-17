@@ -22,7 +22,6 @@ public class CineplexDTO {
   
   public CineplexEntity convert() {
     final CineplexEntity entity = new CineplexEntity();
-    entity.setCineplexId(this.cineplexId);
     entity.setCineplexName(this.cineplexName);
     entity.setCineplexLogo(this.cineplexLogo);
     return entity;

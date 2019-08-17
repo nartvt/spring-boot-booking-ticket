@@ -1,47 +1,57 @@
 package com.program.dto;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.program.entity.MovieTicketEntity;
+import com.program.entity.TicketEntity;
 import com.program.entity.SeatEntity;
 import com.program.entity.ShowtimeEntity;
 import com.program.entity.UserEntity;
 
-public class MovieTicketDTO {
+public class TicketDTO {
   private Long ticketId;
 
   private long totalAmount;
 
   private Timestamp bookingDate;
 
-  private Long seatEntityId;
+  private Set<Long> seatIds;
 
   private Long userEntityId;
 
   private Long showtimeEntityId;
 
-  public MovieTicketDTO() {
+  public TicketDTO() {
 
   }
 
-  public MovieTicketDTO(final MovieTicketEntity entity) {
+  public TicketDTO(final TicketEntity entity) {
     this.ticketId = entity.getTicketId();
     this.totalAmount = entity.getTotalAmount();
     this.bookingDate = entity.getBookingDate();
-    this.seatEntityId = entity.getSeat().getSeatId();
+    if(entity.getSeats()!=null || entity.getSeats().size()>0) {
+      entity.getSeats().stream().forEach(seat->{
+        this.seatIds.add(seat.getSeatId());
+      });
+    }
+    
     this.userEntityId = entity.getUser().getUserId();
     this.showtimeEntityId = entity.getShow().getShowTimeId();
   }
 
-  public MovieTicketEntity convert() {
-    final MovieTicketEntity entity = new MovieTicketEntity();
-    entity.setTicketId(this.ticketId);
+  public TicketEntity convert() {
+    final TicketEntity entity = new TicketEntity();
+    entity.setSeats(new HashSet<>());
     entity.setTotalAmount(this.totalAmount);
     entity.setBookingDate(this.bookingDate);
-    
-    SeatEntity seatEntity = new SeatEntity();
-    entity.setSeat(seatEntity);
-    
+    if(this.seatIds!=null || this.seatIds.size()>0) {
+      this.seatIds.stream().forEach(seat->{
+        SeatEntity seatEntity = new SeatEntity();
+        seatEntity.setSeatId(seat);
+        entity.getSeats().add(seatEntity);
+      });
+    }
     UserEntity userEntity  = new UserEntity();
     userEntity.setUserId(this.userEntityId);
     entity.setUser(userEntity);
@@ -76,12 +86,12 @@ public class MovieTicketDTO {
     this.bookingDate = bookingDate;
   }
 
-  public Long getSeat() {
-    return seatEntityId;
+  public Set<Long> getSeats() {
+    return seatIds;
   }
 
-  public void setSeat(Long seat) {
-    this.seatEntityId = seat;
+  public void setSeats(Set<Long> seatIds) {
+    this.seatIds = seatIds;
   }
 
   public Long getUser() {

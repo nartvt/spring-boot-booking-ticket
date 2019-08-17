@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
       return new ResponseExceptionModel(Boolean.FALSE, "email or phone number alreadly exists", HttpStatus.CONFLICT);
     }
     if (userRepository.save(model.convert()) == null) {
-
+      return new ResponseExceptionModel(Boolean.TRUE, "Can't save user", HttpStatus.BAD_GATEWAY);
     }
     return new ResponseExceptionModel(Boolean.TRUE, "Add success", HttpStatus.CREATED);
   }

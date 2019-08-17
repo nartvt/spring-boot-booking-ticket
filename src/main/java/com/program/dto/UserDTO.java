@@ -48,10 +48,12 @@ public class UserDTO {
     entity.setAddress(this.address);
     entity.setPhoneNumber(this.phoneNumber);
     entity.setAvatar(this.avatar);
-    RoleEntity roleEntity = new RoleEntity();
-    roleEntity.setRoleId(this.role);
     if (this.role != null) {
+      RoleEntity roleEntity = new RoleEntity();
+      roleEntity.setRoleId(this.role);
       entity.setRole(roleEntity);
+    }else {
+      
     }
     return entity;
   }

@@ -28,7 +28,6 @@ public class SeatTypeDTO {
 
   public SeatTypeEntity convert() {
     final SeatTypeEntity entity = new SeatTypeEntity();
-    entity.setSeatTypeId(this.seatTypeId);
     entity.setSeatTypeName(this.seatTypeName);
     entity.setDescription(this.description);
 

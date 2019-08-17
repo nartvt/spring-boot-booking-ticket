@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.program.conmmon.RestContant;
@@ -27,13 +26,13 @@ public class ShowTimesRestController {
   private ShowTimesService showtimeService;
 
   @GetMapping(value = RestContant.REST_ALL)
-  public @ResponseBody List<ShowTimesDTO> showTimes() {
+  public List<ShowTimesDTO> showTimes() {
     List<ShowTimesDTO> showTimes = showtimeService.findAll();
     return showTimes;
   }
 
   @GetMapping(value = RestContant.REST_BY_ID)
-  public @ResponseBody ShowTimesDTO showTime(@PathVariable("id") Long id) {
+  public ShowTimesDTO showTime(@PathVariable("id") Long id) {
     ShowTimesDTO showTime = showtimeService.findById(id);
     return showTime;
   }

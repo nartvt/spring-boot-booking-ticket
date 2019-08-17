@@ -33,7 +33,6 @@ public class ShowTimesDTO {
   }
   public ShowtimeEntity convert() {
     final ShowtimeEntity entity = new ShowtimeEntity();
-    entity.setShowTimeId(this.showTimeId);
     entity.setShowDay(this.showDay);
     entity.setShowDate(this.showDate);
     entity.setTicketFare(this.ticketFare);
